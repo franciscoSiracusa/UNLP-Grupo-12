@@ -1,4 +1,3 @@
-
 # Seminario de Lenguajes JS
 
 ## Instalar docker
@@ -6,12 +5,25 @@
 * **macOS**: [Link de descarga](https://docs.docker.com/docker-for-mac/install/)
 * **GNU/Linux**:
 
-## Instalar dependencias del proyecto
+## usar con docker
+#### instalar dependencias
 ```bash
-$ docker-compose run backend npm install
+docker-compose run backend npm install
 ```
 
-## Correr la aplicación
+#### correr la aplicacion
 ```bash
-$ docker-compose up
+docker-compose up
+```
+
+## usar sin docker
+- estando parado en la carpeta src
+
+#### instalar dependencia
+```bash
+npm install
+```
+#### correr la aplicacion
+```bash
+npm start
 ```

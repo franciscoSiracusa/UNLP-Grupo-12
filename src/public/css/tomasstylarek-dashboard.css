@@ -1,0 +1,22 @@
+.list {
+    background-color: #000;
+    border-radius: .5rem;
+    max-width: 10rem;
+    list-style: none;
+    padding: 1.5rem;
+    margin: 2rem;
+}
+
+.list li {
+    margin-bottom: 1rem;
+}
+
+.list a {
+    color: #eee;
+    font-size: 1.2em;
+    text-decoration: none;
+}
+
+.list a:visited {
+    color: #eee;
+}
