@@ -25,7 +25,7 @@ function imprimirFecha(date) {
   log(
     date.getDate() +
       '/' +
-      date.getMonth() +
+      date.getMonth() + // milton dice: faltaria sumarle 1 porque los meses los devuelve de 0 a 11 https://lenguajejs.com/javascript/fechas/date-fechas-nativas/#getters-obtener-fechas
       '/' +
       date.getFullYear() +
       ' ' +
