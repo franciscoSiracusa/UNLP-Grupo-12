@@ -1,0 +1,16 @@
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  background-image: linear-gradient(to right, #868f96 0%, #596164 100%);
+  background-size: cover;
+}
+
+.image {
+  width: 10rem;
+  background-color: #596165;
+  border-radius: 50%;
+  padding: 1rem;
+}
