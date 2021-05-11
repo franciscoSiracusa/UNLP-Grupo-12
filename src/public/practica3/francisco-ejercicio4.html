@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ejercicio 4</title>
+  </head>
+  <body>
+    <a href="../franciscoBarrot-dashboard.html">Dashboard</a>
+
+    <div class="content">
+      <label for="species">Filter by species</label>
+      <select name="species" id="species">
+        <option value="All">All</option>
+        <option value="Human">Human</option>
+        <option value="Alien">Alien</option>
+      </select>
+
+      <ul id="characters-list"></ul>
+    </div>
+    <script>
+      const list = document.getElementById('characters-list');
+      const select = document.getElementById('species');
+      select.addEventListener('change', displayNames);
+
+      function stateChangeHandler() {
+        if (this.readyState === 4 && this.status === 200) {
+          const species = select.value;
+          console.log(species);
+          JSON.parse(this.responseText).results.forEach((character) => {
+            if (species == character.species || species == 'All') {
+              const li = document.createElement('li');
+              li.textContent = character.name;
+              list.appendChild(li);
+            }
+          });
+        }
+      }
+      function ajax(e) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = stateChangeHandler;
+        xhttp.open('GET', 'https://rickandmortyapi.com/api/character', true);
+        xhttp.send();
+      }
+
+      function displayNames() {
+        list.innerHTML = '';
+        ajax();
+      }
+
+      displayNames();
+    </script>
+  </body>
+</html>

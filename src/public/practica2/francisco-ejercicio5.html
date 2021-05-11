@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ejercicio 5</title>
+  </head>
+  <body>
+    <a href="../franciscoBarrot-dashboard.html">Dashboard</a>
+    <script>
+      function arrayEquals(a, b) {
+        let sonIguales = true;
+        if (a.length === b.length) {
+          for (let i = 0; i < a.length; i++) {
+            if (a[i] !== b[i]) {
+              sonIguales = false;
+              break;
+            }
+          }
+        } else {
+          sonIguales = false;
+        }
+        return sonIguales;
+      }
+      var a = [1, 2, 3, 4];
+      var b = [1, 2, 3, 4];
+      var c = [1, 2, 3, 4, 5];
+      var d = 'Hola';
+      var e = null;
+      console.log(arrayEquals(a, a));
+      console.log(arrayEquals(a, b));
+      console.log(arrayEquals(b, c));
+      console.log(arrayEquals(e, c));
+      console.log(arrayEquals(c, d));
+      console.log(arrayEquals(e, e));
+      console.log(arrayEquals(d, f));
+    </script>
+  </body>
+</html>

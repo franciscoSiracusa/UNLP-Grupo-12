@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ejercicio 3</title>
+  </head>
+  <body>
+    <a href="../franciscoBarrot-dashboard.html">Dashboard</a>
+    <script>
+      function max(values) {
+        let maxValue;
+        values.forEach((element) => {
+          if (typeof element === 'number') {
+            if (maxValue === undefined) {
+              maxValue = element;
+            } else {
+              if (maxValue < element) {
+                maxValue = element;
+              }
+            }
+          }
+        });
+        return maxValue;
+      }
+      function min(values) {
+        let mixValue;
+        values.forEach((element) => {
+          if (typeof element === 'number') {
+            if (mixValue === undefined) {
+              mixValue = element;
+            } else {
+              if (mixValue > element) {
+                mixValue = element;
+              }
+            }
+          }
+        });
+        return mixValue;
+      }
+      function avg(values) {
+        let total = 0;
+        values.forEach((element) => {
+          if (typeof element === 'number') {
+            total += element;
+          }
+        });
+        return total / values.length;
+      }
+      function sum(values) {
+        let total = 0;
+        values.forEach((element) => {
+          if (typeof element === 'number') {
+            total += element;
+          }
+        });
+        return total;
+      }
+
+      let prices = [1.2, 2, 22, -33, 12, 0.0, '13', Math.PI];
+      let names = ['John', 'Paul', 'George', 'Ringo'];
+      console.log(max(prices));
+      console.log(min(prices));
+      console.log(avg(prices));
+      console.log(sum(prices));
+      console.log(max(names));
+      console.log(min(names));
+      console.log(avg(names));
+      console.log(sum(names));
+      console.log(max([]));
+      console.log(min([]));
+      console.log(avg([]));
+      console.log(sum([]));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ejercicio 4</title>
+  </head>
+  <body>
+    <a href="../franciscoBarrot-dashboard.html">Dashboard</a>
+    <script>
+      function concat(left, right) {
+        return left.concat(right);
+      }
+      var names = ['John', 'Paul', 'George', 'Ringo'];
+      console.log(names.reduce(concat));
+
+      function max(values) {
+        return values.reduce((value, max) => {
+          return Math.max(max, value);
+        }, 0);
+      }
+      function min(values) {
+        return values.reduce((value, min) => {
+          return Math.min(min, value);
+        }, 0);
+      }
+      function avg(values) {
+        let total = values.reduce((value, contador) => {
+          return contador + value;
+        }, 0);
+        return total / values.length;
+      }
+      function sum(values) {
+        return values.reduce((value, total) => {
+          return total + value;
+        }, 0);
+      }
+
+      a = [1, 42, -5, 2];
+      console.log(max(a));
+      console.log(min(a));
+      console.log(avg(a));
+      console.log(sum(a));
+    </script>
+  </body>
+</html>

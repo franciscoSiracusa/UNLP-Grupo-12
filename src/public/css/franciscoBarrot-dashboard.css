@@ -13,6 +13,15 @@ body {
   align-items: center;
   justify-content: center;
   height: 100%;
+  color: #eee;
+}
+
+#content {
+  display: flex;
+}
+
+.practica-container {
+  margin: 0 1rem;
 }
 
 ul {
@@ -21,9 +30,11 @@ ul {
 
 li {
   margin-bottom: 1rem;
+  display: flex;
 }
 
 a {
+  margin: auto;
   text-decoration: none;
   color: #eee;
 }
