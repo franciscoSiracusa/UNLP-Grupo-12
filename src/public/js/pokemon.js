@@ -41,7 +41,38 @@ function displayInfo() {
   if (this.readyState === 4 && this.status === 200) {
     let res = JSON.parse(this.responseText);
     console.log(res);
-    const info = document.querySelector('.info');
+    /* id pokemon */
+    const infoHeader = document.querySelector('.info-header');
+    infoHeader.childNodes[1].textContent = 'N°' + res.id;
+    /* pokemon name */
+    infoHeader.childNodes[5].textContent =
+      res.name[0].toUpperCase() + res.name.slice(1);
+    /* pokemon height */
+    const pokemonHeight = document.getElementById('height');
+    pokemonHeight.childNodes[1].textContent = 'Altura';
+    pokemonHeight.childNodes[5].textContent = res.height / 10 + ' metros';
+    /* pokemon weight */
+    const pokemonWeight = document.getElementById('weight');
+    pokemonWeight.childNodes[1].textContent = 'Peso';
+    pokemonWeight.childNodes[5].textContent = res.weight / 10 + '  kg';
+    /* habilidades */
+    const pokemonAbilities = document.getElementById('abilities');
+    pokemonAbilities.innerHTML = ' <h5>Habilidades</h5>';
+    res.abilities.forEach((ability) => {
+      const p = document.createElement('p');
+      p.textContent = ability.is_hidden
+        ? ability.ability.name + ' (oculta)'
+        : ability.ability.name;
+      pokemonAbilities.appendChild(p);
+    });
+    /* types */
+    const pokemonTypes = document.getElementById('types');
+    pokemonTypes.innerHTML = '<h5>Tipos</h5>';
+    res.types.forEach((type) => {
+      const p = document.createElement('p');
+      p.textContent = type.type.name;
+      pokemonTypes.appendChild(p);
+    });
   }
 }
 
@@ -51,35 +82,43 @@ let anterior;
 
 const nextPage = document.getElementById('nextPage');
 nextPage.addEventListener('click', () => {
-  if (siguiente === null) {
-    alert('no hay mas pokemones');
-  } else {
+  if (siguiente !== null) {
+    if (siguiente.charAt()) {
+    } //todo
     makeRequest(siguiente, stateChangeHandler);
+    removeClicked();
   }
 });
 
 const previousPage = document.getElementById('previousPage');
 previousPage.addEventListener('click', () => {
-  if (anterior.charAt(anterior.length - 1) !== '6') {
-    //todo
-    anterior = anterior.splice(0, anterior.length - 1, '6');
+  if (anterior !== null) {
+    if (anterior.charAt(anterior.length - 1) !== '6') {
+      anterior = anterior.slice(0, anterior.length - 1) + '6';
+    }
+    makeRequest(anterior, stateChangeHandler);
+    removeClicked();
   }
-  makeRequest(anterior, stateChangeHandler);
 });
 
 makeRequest(
-  'https://pokeapi.co/api/v2/pokemon?limit=6&offset=15',
+  'https://pokeapi.co/api/v2/pokemon?limit=6&offset=1103',
   stateChangeHandler
 );
+
+function removeClicked() {
+  pokemonImages.forEach((container) => {
+    container.classList.remove('clicked');
+  });
+}
 
 const pokemonImages = document.querySelectorAll('.pokemon');
 pokemonImages.forEach((container) => {
   container.addEventListener('click', () => {
-	// quitar clase clicked
-	pokemonImages.forEach(container => {
-		container.classList.remove("clicked");
-	});
-    container.classList.add("clicked");
+    document.querySelector('.info').classList.remove('undisplayed');
+    // quitar clase clicked
+    removeClicked();
+    container.classList.add('clicked');
     // TODO
     // si el pokemon esta clickeado, no hacer el request
     makeRequest(container.dataset.url, displayInfo);
