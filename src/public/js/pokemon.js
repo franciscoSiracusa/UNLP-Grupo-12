@@ -102,7 +102,7 @@ previousPage.addEventListener('click', () => {
 });
 
 makeRequest(
-  'https://pokeapi.co/api/v2/pokemon?limit=6&offset=1103',
+  'https://pokeapi.co/api/v2/pokemon?limit=6&offset=0',
   stateChangeHandler
 );
 
