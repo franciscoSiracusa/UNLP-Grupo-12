@@ -75,6 +75,13 @@ makeRequest(
 const pokemonImages = document.querySelectorAll('.pokemon');
 pokemonImages.forEach((container) => {
   container.addEventListener('click', () => {
+	// quitar clase clicked
+	pokemonImages.forEach(container => {
+		container.classList.remove("clicked");
+	});
+    container.classList.add("clicked");
+    // TODO
+    // si el pokemon esta clickeado, no hacer el request
     makeRequest(container.dataset.url, displayInfo);
   });
 });

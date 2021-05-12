@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap%27');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;600&display=swap%27');
 
 html {
   height: 100%;
@@ -9,7 +9,6 @@ body {
   color: #ccc;
   background-color: #444;
   height: 100%;
-  overflow: hidden;
 }
 
 .container {
@@ -28,6 +27,12 @@ body {
   width: 8rem;
   height: 8rem;
   border: 1.5rem solid #555;
+  transition: transform .5s, box-shadow .5s;
+}
+
+.clicked {
+  box-shadow: -7px 8px 15px 3px rgba(51,51,51,0.7);
+  transform: scale(1.05);
 }
 
 .pokemon img {
@@ -59,16 +64,45 @@ body {
 .info {
   background-color: #555;
   border-radius: 1rem;
-  margin-top: 2rem;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 2rem auto;
   width: 70%;
-  height: 15rem;
   padding: 1rem;
 }
 
 /* info container */
 .info-header {
-  width: 100%;
+  position: relative;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.info-header h6 {
+  position: absolute;
+  left: .5rem;
+  bottom: 0;
+  font-size: 15px;
+}
+
+.info-header h4 {
+  font-size: 22px;
+}
+
+.info-content {
   display: flex;
+  justify-content: space-around;
+}
+
+.info-content h5 {
+  font-size: 17px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.info-content p {
+  margin-top: .2rem;
+  margin-bottom: .2rem;
+}
+
+.content-group {
+  margin-bottom: 1rem;
 }
