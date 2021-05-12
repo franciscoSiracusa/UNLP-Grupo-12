@@ -2,7 +2,6 @@ function stateChangeHandler() {
   if (this.readyState === 4 && this.status === 200) {
     let res = JSON.parse(this.responseText);
     let results = res.results;
-<<<<<<< HEAD
     siguiente = res.next;
     anterior = res.previous;
 
@@ -12,13 +11,6 @@ function stateChangeHandler() {
       container.dataset.url = results[index].url;
     });
     // crear los pokemons
-=======
-
-    pokemonImages.forEach((pokemon, index) => {
-      pokemon.id = results[index].name;
-    });
-
->>>>>>> 930b9a16774ebe7b7da612cc74c34a442b787d06
     results.forEach((pok) => makeRequest(pok.url, setPokemon));
   }
 }
@@ -29,10 +21,7 @@ function setPokemon() {
     pokemonImages.forEach((container) => {
       if (container.id == res.name) {
         container.style.backgroundImage = `url(${res.sprites.other['official-artwork'].front_default})`;
-<<<<<<< HEAD
         container.innerHTML = '';
-=======
->>>>>>> 930b9a16774ebe7b7da612cc74c34a442b787d06
         const h5 = document.createElement('h5');
         h5.textContent = res.name[0].toUpperCase() + res.name.slice(1);
         container.appendChild(h5);
@@ -48,7 +37,6 @@ function makeRequest(url, func) {
   xhttp.send();
 }
 
-<<<<<<< HEAD
 function displayInfo() {
   if (this.readyState === 4 && this.status === 200) {
     let res = JSON.parse(this.responseText);
@@ -90,10 +78,3 @@ pokemonImages.forEach((container) => {
     makeRequest(container.dataset.url, displayInfo);
   });
 });
-=======
-makeRequest(
-  'https://pokeapi.co/api/v2/pokemon?limit=6&offset=0',
-  stateChangeHandler
-);
-const pokemonImages = document.querySelectorAll('.pokemon');
->>>>>>> 930b9a16774ebe7b7da612cc74c34a442b787d06
