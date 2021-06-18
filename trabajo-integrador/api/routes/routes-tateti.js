@@ -1,37 +1,21 @@
 const { Router } = require('express');
-const router  = Router();
-
-let gameData = {
-	id: Math.floor(Math.random() * 1000),
-	board: [
-		null,
-		null,
-		null,
-		null,
-		null,
-		null,
-		null,
-		null,
-		null
-	],
-	turn: "X"
-}
+const router = Router();
+const tatetiControllers = require('../controllers/tateti-controllers');
 
 router.get('/tateti', (req, res) => {
-	res.sendFile('public/tateti.html', { root: process.cwd() });
-})
+  res.sendFile('public/tateti.html', { root: process.cwd() });
+});
 
 router.put('/tateti', (req, res) => {
-	console.log(gameData);
+  console.log(req.query.square);
 
-	gameData.board[req.query.square] = gameData.turn;
-	gameData.turn = gameData.turn === "X" ? "O" : "X";
+  /* gameData.board[req.query.square] = gameData.turn;
+  gameData.turn = gameData.turn === 'X' ? 'O' : 'X';
+ */
 
-	console.log(gameData);
-})
+  /* console.log(gameData); */
+});
 
-router.get('/tateti/start', (req, res) => {
-	res.send(gameData)
-})
+router.get('/tateti/start', tatetiControllers.initializeGame);
 
 module.exports = router;
