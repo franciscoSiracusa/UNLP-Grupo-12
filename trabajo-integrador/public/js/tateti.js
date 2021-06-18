@@ -13,13 +13,15 @@ window.addEventListener('load', () => {
   let currentId =
     window.location.href.split('?')[1] === undefined
       ? '-1'
-      : window.location.href.split('?')[1];
+      : window.location.href.split('?')[1]; // id actual de la pagina
 
-  fetch('/tateti/start/?id=' + currentId) //window.location.href = localHost:3000/tateti/?id=13123124
+  fetch('/tateti/start/?id=' + currentId)
     .then((res) => res.json())
     .then((data) => {
-      document.querySelector('#urlGame').textContent =
-        window.location + '/?id=' + data.id;
+      if (currentId === -1) {
+        document.querySelector('#urlGame').textContent =
+          window.location.href + '/?id=' + data.id;
+      }
       document.querySelectorAll('.square').forEach((square) => {
         square.addEventListener('click', (e) => {
           fetch(`/tateti/?square=${e.target.dataset.number}`, {
