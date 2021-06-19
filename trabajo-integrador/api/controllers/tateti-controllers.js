@@ -1,8 +1,12 @@
 let games = [];
 
-const searchBoard = id => {
-  return games.find(obj => obj.id === id);
-}
+const searchBoard = (id) => {
+  return games.find((obj) => obj.id === id);
+};
+
+const isValidMove = (board, pos) => {
+  return board[pos] === null;
+};
 
 const initializeGame = (req, res) => {
   let currentBoard;
@@ -26,17 +30,17 @@ const initializeGame = (req, res) => {
 };
 
 const updateGame = (req, res) => {
-
-  console.log(req.query.id)
   let currentBoard = searchBoard(req.query.id);
 
-  currentBoard.board[req.query.square] = currentBoard.turn;
-  currentBoard.turn = currentBoard.turn === 'X' ? 'O' : 'X';
+  // validar jugada
+  if (isValidMove(currentBoard.board, req.query.square)) {
+    currentBoard.board[req.query.square] = currentBoard.turn;
+    currentBoard.turn = currentBoard.turn === 'X' ? 'O' : 'X';
+  }
+  console.log(currentBoard);
+};
 
-  console.log(currentBoard)
-}
-
-module.exports = { 
+module.exports = {
   initializeGame,
-  updateGame
+  updateGame,
 };

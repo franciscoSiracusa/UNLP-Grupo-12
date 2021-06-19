@@ -19,13 +19,11 @@ window.addEventListener('load', () => {
     .then((data) => {
       let turn = data.turn;
 
-      if (currentId === '-1') { // hay que cambiar el -1 para que sea un string, como en controllers
+      if (currentId === '-1') {
+        // hay que cambiar el -1 para que sea un string, como en controllers
         document.querySelector('#urlGame').textContent =
           window.location.href + '/?id=' + data.id;
       }
-
-
-      console.log(data.id)
 
       document.querySelectorAll('.square').forEach((square) => {
         square.addEventListener('click', (e) => {
