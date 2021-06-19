@@ -21,6 +21,9 @@ window.addEventListener('load', () => {
         document.querySelector('#urlGame').textContent =
           window.location.href + '/?id=' + data.id;
       }
+
+      console.log(data.id)
+
       document.querySelectorAll('.square').forEach((square) => {
         square.addEventListener('click', (e) => {
           fetch(`/tateti/?square=${e.target.dataset.number}`, {
@@ -33,6 +36,7 @@ window.addEventListener('load', () => {
               if (data.winner) {
                 displayWinner();
               }
+              // aca va el loop pidiendo el board
             });
         });
       });

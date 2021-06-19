@@ -6,15 +6,7 @@ router.get('/tateti', (req, res) => {
   res.sendFile('/public/tateti.html', { root: process.cwd() });
 });
 
-router.put('/tateti', (req, res) => {
-  console.log(req.query.square);
-
-  /* gameData.board[req.query.square] = gameData.turn;
-  gameData.turn = gameData.turn === 'X' ? 'O' : 'X';
- */
-
-  /* console.log(gameData); */
-});
+router.put('/tateti', tatetiControllers.updateGame);
 
 router.get('/tateti/start', tatetiControllers.initializeGame);
 
