@@ -3,7 +3,7 @@ const router = Router();
 const tatetiControllers = require('../controllers/tateti-controllers');
 
 router.get('/tateti', (req, res) => {
-  res.sendFile('public/tateti.html', { root: process.cwd() });
+  res.sendFile('/public/tateti.html', { root: process.cwd() });
 });
 
 router.put('/tateti', (req, res) => {

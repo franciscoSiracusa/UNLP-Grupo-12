@@ -5,15 +5,18 @@ const initializeGame = (req, res) => {
   if (req.query.id === '-1') {
     //si no existe, se crea un nuevo juego
     currentBoard = {
-      id: Math.floor(Math.random() * 1000), //uuid
+      id: Math.floor(Math.random() * 1000).toString(), //uuid
       board: [null, null, null, null, null, null, null, null, null],
       turn: 'X', // posiblemente debe hacer una id para cada jugador
     };
     games.push(currentBoard);
+    console.log(currentBoard.id);
   } else {
     // caso contrario, busca el id correspondiente para el segundo jugador
-    currentBoard = games.find((obj) => obj.id === req.query.id);
+    const jj = req.query.id;
+    currentBoard = games.find((obj) => obj.id === jj.split('=')[1]); // es feo pero funciona
   }
+  console.log(currentBoard)
   res.send(currentBoard);
 };
 

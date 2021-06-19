@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>Tateti | Grupo 12 Juegos</title>
-	<link rel="stylesheet" type="text/css" href="./css/tateti.css">
+
 </head>
 <body>
 	<h1>Tateti</h1>
@@ -20,7 +20,17 @@
 		<div class="square" data-number="7"></div>
 		<div class="square" data-number="8"></div>
 	</div>
-
-	<script type="text/javascript" src="./js/tateti.js"></script>
+	<script>
+		const script = document.createElement('script');
+        script.defer = true;
+        script.type = "text/javascript"
+        script.src = window.location.href.split('/tateti')[0] + "/js/tateti.js";
+        const link = document.createElement('link')
+        link.rel = "stylesheet"
+        link.type = "text/css"
+        link.href = window.location.href.split('/tateti')[0] + "/css/tateti.css"
+        document.head.appendChild(link)
+        document.head.appendChild(script)
+	</script>
 </body>
 </html>

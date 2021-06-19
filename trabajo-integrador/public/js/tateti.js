@@ -14,11 +14,10 @@ window.addEventListener('load', () => {
     window.location.href.split('?')[1] === undefined
       ? '-1'
       : window.location.href.split('?')[1]; // id actual de la pagina
-
   fetch('/tateti/start/?id=' + currentId)
     .then((res) => res.json())
     .then((data) => {
-      if (currentId === -1) {
+      if (currentId === '-1') { // hay que cambiar el -1 para que sea un string, como en controllers
         document.querySelector('#urlGame').textContent =
           window.location.href + '/?id=' + data.id;
       }
