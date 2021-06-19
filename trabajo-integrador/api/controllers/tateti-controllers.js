@@ -17,27 +17,23 @@ const initializeGame = (req, res) => {
     };
 
     games.push(currentBoard);
-    console.log(currentBoard.id);
   } else {
     // caso contrario, busca el id correspondiente para el segundo jugador
 
     currentBoard = searchBoard(req.query.id.split('=')[1]); // es feo pero funciona
   }
-  console.log(currentBoard)
   res.send(currentBoard);
 };
 
 const updateGame = (req, res) => {
 
-  // console.log(req.query.id)
-  // let currentBoard = searchBoard(req.query.id);
+  console.log(req.query.id)
+  let currentBoard = searchBoard(req.query.id);
 
-  console.log(req.query.square);
+  currentBoard.board[req.query.square] = currentBoard.turn;
+  currentBoard.turn = currentBoard.turn === 'X' ? 'O' : 'X';
 
-  gameData.board[req.query.square] = gameData.turn;
-  gameData.turn = gameData.turn === 'X' ? 'O' : 'X';
-
-  console.log(gameData);
+  console.log(currentBoard)
 }
 
 module.exports = { 

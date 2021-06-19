@@ -6,7 +6,7 @@ router.get('/tateti', (req, res) => {
   res.sendFile('/public/tateti.html', { root: process.cwd() });
 });
 
-router.put('/tateti', tatetiControllers.updateGame);
+router.patch('/tateti', tatetiControllers.updateGame);
 
 router.get('/tateti/start', tatetiControllers.initializeGame);
 
