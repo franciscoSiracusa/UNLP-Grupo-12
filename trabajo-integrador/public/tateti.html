@@ -6,8 +6,12 @@
 
 </head>
 <body>
-	<h1>Tateti</h1>
-	<p id="urlGame"></p>
+	<h1 class="title">Tateti</h1>
+	<div class="link">
+		<p id="urlGame"></p>
+		<button onclick="copyToClipboard('urlGame')">Copiar</button>
+	</div>
+
 
 	<div class="board">
 		<div class="square" data-number="0"></div>
@@ -31,6 +35,7 @@
         link.href = window.location.href.split('/tateti')[0] + "/css/tateti.css"
         document.head.appendChild(link)
         document.head.appendChild(script)
+
 	</script>
 </body>
 </html>
