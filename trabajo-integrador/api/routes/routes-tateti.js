@@ -1,9 +1,10 @@
 const { Router } = require('express');
 const router = Router();
 const tatetiControllers = require('../controllers/tateti-controllers');
+const path = require("path")
 
 router.get('/tateti', (req, res) => {
-  res.sendFile('/public/tateti.html', { root: process.cwd() });
+  res.sendFile('tateti.html', { root: path.join(__dirname,'../','../','public') });
 });
 
 router.patch('/tateti', tatetiControllers.updateGame);
