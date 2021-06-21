@@ -5,28 +5,30 @@
 */
 let currentTurn;
 
+const displayBoard = (board) => {
+  document.querySelectorAll('.square').forEach((squere, index) => {
+    squere.textContent = board[index];
+  });
+};
+
+const displayWinner = () => {};
+
 const pollGame = (id, winner, boardTurn, playerTurn) => {
-  currentTurn = boardTurn;
-  if (!winner && boardTurn !== playerTurn) {
-    fetch(`/tateti/start/?id=${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        displayBoard();
-        currentTurn = boardTurn;
-        setTimeout(() => {
-          pollGame(id, data.winner, data.turn, playerTurn);
-        }, 2000);
-      });
+  if (!winner) {
+    if (boardTurn !== playerTurn)
+      fetch(`/tateti/start/?id=${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          displayBoard(data.board);
+          currentTurn = data.turn;
+          setTimeout(() => {
+            pollGame(id, data.winner, data.turn, playerTurn);
+          }, 1000);
+        });
   } else {
     displayWinner();
   }
 };
-
-const displayBoard = () => {
-  //todo
-};
-
-const displayWinner = () => {};
 
 window.addEventListener('load', () => {
   let currentId;
@@ -49,8 +51,8 @@ window.addEventListener('load', () => {
       }
 
       currentTurn = data.turn;
-
-      if (playerTurn === 'O') {
+      displayBoard(data.board);
+      if (playerTurn !== currentTurn) {
         pollGame(data.id, data.winner, data.turn, playerTurn);
       }
 
@@ -63,7 +65,7 @@ window.addEventListener('load', () => {
             })
               .then((res) => res.json())
               .then((data) => {
-                displayBoard(data);
+                displayBoard(data.board);
                 if (data.winner) {
                   displayWinner();
                 } else {
