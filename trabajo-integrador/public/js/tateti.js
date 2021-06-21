@@ -3,23 +3,24 @@
 	No ejecutar evento si el square ya se clickeo
 	Hacer que el url tenga en la ruta el id, para que puedan jugar dos personas
 */
+let currentTurn;
 
-const pollGame = (id, winner) => {
-  if (!winner) {
+const pollGame = (id, winner, boardTurn, playerTurn) => {
+  currentTurn = boardTurn;
+  if (!winner && boardTurn !== playerTurn) {
     fetch(`/tateti/start/?id=${id}`)
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         displayBoard();
+        currentTurn = boardTurn;
         setTimeout(() => {
-          pollGame(id, data.winner);
+          pollGame(id, data.winner, data.turn, playerTurn);
         }, 2000);
-      })
+      });
   } else {
     displayWinner();
   }
-
-
-}
+};
 
 const displayBoard = () => {
   //todo
@@ -29,42 +30,50 @@ const displayWinner = () => {};
 
 window.addEventListener('load', () => {
   let currentId;
-  let turn;
+  let playerTurn;
 
   if (window.location.href.split('?')[1] === undefined) {
     currentId = '-1';
-    turn = "X";
+    playerTurn = 'X';
   } else {
     currentId = window.location.href.split('=')[1];
-    turn = "O"
+    playerTurn = 'O';
   }
 
   fetch('/tateti/start/?id=' + currentId)
     .then((res) => res.json())
     .then((data) => {
-
       if (currentId === '-1') {
         document.querySelector('#urlGame').textContent =
           window.location.href + '/?id=' + data.id;
       }
 
+      currentTurn = data.turn;
 
-      pollGame(data.id, data.winner);
+      if (playerTurn === 'O') {
+        pollGame(data.id, data.winner, data.turn, playerTurn);
+      }
 
-      
       document.querySelectorAll('.square').forEach((square) => {
         square.addEventListener('click', (e) => {
-          fetch(`/tateti/?square=${e.target.dataset.number}&id=${data.id}`, {
-            method: 'PATCH',
-          })
-            .then((res) => res.json())
-            .then((data) => {
-              displayBoard(data);
-              if (data.winner) {
-                displayWinner();
-              }
-              // aca va el loop pidiendo el board
-            });
+          console.log(currentTurn);
+          if (playerTurn === currentTurn) {
+            fetch(`/tateti/?square=${e.target.dataset.number}&id=${data.id}`, {
+              method: 'PATCH',
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                displayBoard(data);
+                if (data.winner) {
+                  displayWinner();
+                } else {
+                  pollGame(data.id, data.winner, data.turn, playerTurn);
+                }
+                // aca va el loop pidiendo el board
+              });
+          } else {
+            console.log('No es tu turno pa');
+          }
         });
       });
     });
