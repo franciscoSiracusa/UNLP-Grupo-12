@@ -5,7 +5,7 @@ const searchBoard = (id) => {
 };
 
 const isValidMove = (board, pos) => {
-  return board[pos] === null; //para mi hay que preguntar por winner tamb sino puden seguir jugando
+  return board[pos] === null; 
 };
 
 const checkWinner = (board, turn) => {
@@ -63,11 +63,10 @@ const updateGame = (req, res) => {
     currentBoard.board[req.query.square] = currentBoard.turn;
     if (checkWinner(currentBoard.board, currentBoard.turn)) {
       currentBoard.winner = currentBoard.turn;
-      console.log("---------");
-      console.log(games);
       //borrar board luego de haber terminado (hacer un pop)
+    } else {
+      currentBoard.turn = currentBoard.turn === 'X' ? 'O' : 'X';
     }
-    currentBoard.turn = currentBoard.turn === 'X' ? 'O' : 'X';
   }
   console.log("---------");
   console.log(currentBoard);
@@ -81,3 +80,5 @@ module.exports = {
 
 //fix maximo 5 jugadas? se arregla enviando el res.send(currentboard) xq el pacht se queda pending
 // para el metodo borrar hay dos condiciones, que haya ganado o que empaten, comprobar que winner=false y el arreglo esta lleno ---> hacer una funtion que busque el juego por id y lo borre en los casos
+
+// en el momento de borrar el tablero al finalizar, hay que esperar mas de 3 seg 
