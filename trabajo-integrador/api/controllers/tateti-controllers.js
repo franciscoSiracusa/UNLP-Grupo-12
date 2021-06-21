@@ -33,6 +33,15 @@ const checkWinner = (board, turn) => {
   return isWinner;
 };
 
+const checkDraw = (board) => {
+  board.forEach((element) => {
+    if (element === null) {
+      return false;
+    }
+  });
+  return true;
+};
+
 const initializeGame = (req, res) => {
   let currentBoard;
 
@@ -44,12 +53,13 @@ const initializeGame = (req, res) => {
       turn: 'X', // posiblemente debe hacer una id para cada jugador
       //posible atributo: invalidMove : true/false
       winner: null,
+      draw: false,
     };
 
     games.push(currentBoard);
   } else {
     // caso contrario, busca el id correspondiente para el segundo jugador
-    currentBoard = searchBoard(req.query.id); // es feo pero funciona, ya no es mas feo y sigue funcionando
+    currentBoard = searchBoard(req.query.id);
   }
   res.send(currentBoard);
 };
@@ -63,11 +73,13 @@ const updateGame = (req, res) => {
     currentBoard.board[req.query.square] = currentBoard.turn;
     if (checkWinner(currentBoard.board, currentBoard.turn)) {
       currentBoard.winner = currentBoard.turn;
-      //borrar board luego de haber terminado (hacer un pop)
+    } else if (checkDraw(currentBoard.board)) {
+      currentBoard.draw = true;
     } else {
       currentBoard.turn = currentBoard.turn === 'X' ? 'O' : 'X';
     }
   }
+  //borrar board luego de haber terminado el partido, debe pasar un tiempo (hacer un pop)
   res.send(currentBoard);
 };
 
@@ -76,7 +88,6 @@ module.exports = {
   updateGame,
 };
 
-//fix maximo 5 jugadas? se arregla enviando el res.send(currentboard) xq el pacht se queda pending
 // para el metodo borrar hay dos condiciones, que haya ganado o que empaten, comprobar que winner=false y el arreglo esta lleno ---> hacer una funtion que busque el juego por id y lo borre en los casos
 
 // en el momento de borrar el tablero al finalizar, hay que esperar mas de 3 seg

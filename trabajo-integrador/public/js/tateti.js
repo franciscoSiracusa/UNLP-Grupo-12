@@ -13,8 +13,10 @@ const displayBoard = (board) => {
 
 const displayWinner = () => {};
 
-const pollGame = (id, winner, boardTurn, playerTurn) => {
-  if (!winner) {
+const displayDraw = () => {};
+
+const pollGame = (id, winner, draw, boardTurn, playerTurn) => {
+  if (!winner && !draw) {
     if (boardTurn !== playerTurn)
       fetch(`/tateti/start/?id=${id}`)
         .then((res) => res.json())
@@ -22,11 +24,15 @@ const pollGame = (id, winner, boardTurn, playerTurn) => {
           displayBoard(data.board);
           currentTurn = data.turn;
           setTimeout(() => {
-            pollGame(id, data.winner, data.turn, playerTurn);
+            pollGame(id, data.winner, data.draw, data.turn, playerTurn);
           }, 1000);
         });
   } else {
-    displayWinner();
+    if (winner) {
+      displayWinner();
+    } else {
+      displayDraw();
+    }
   }
 };
 
@@ -53,12 +59,11 @@ window.addEventListener('load', () => {
       currentTurn = data.turn;
       displayBoard(data.board);
       if (playerTurn !== currentTurn) {
-        pollGame(data.id, data.winner, data.turn, playerTurn);
+        pollGame(data.id, data.winner, data.draw, data.turn, playerTurn);
       }
 
       document.querySelectorAll('.square').forEach((square) => {
         square.addEventListener('click', (e) => {
-          console.log(currentTurn);
           if (playerTurn === currentTurn) {
             fetch(`/tateti/?square=${e.target.dataset.number}&id=${data.id}`, {
               method: 'PATCH',
@@ -68,10 +73,17 @@ window.addEventListener('load', () => {
                 displayBoard(data.board);
                 if (data.winner) {
                   displayWinner();
+                } else if (data.draw) {
+                  displayDraw();
                 } else {
-                  pollGame(data.id, data.winner, data.turn, playerTurn);
+                  pollGame(
+                    data.id,
+                    data.winner,
+                    data.draw,
+                    data.turn,
+                    playerTurn
+                  );
                 }
-                // aca va el loop pidiendo el board
               });
           } else {
             console.log('No es tu turno pa');
