@@ -1,48 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;300;600&display=swap');
-
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-}
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
-}
-body {
-	line-height: 1;
-}
-ol, ul {
-	list-style: none;
-}
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
-}
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
+@import url('reset.css');
 
 html {
 	height: 100%;
@@ -68,7 +25,7 @@ body {
 	border-radius: 2rem;
 	box-shadow: 1px -1px 6px #bbb inset;
 	display: flex;
-	padding-left:  1rem;
+	padding-left: 1rem;
 	margin: 1rem auto 3rem auto;
 	width: fit-content;
 }
@@ -97,6 +54,58 @@ body {
 	background: #33475C;
 }
 
+.playerInfo {
+	border: 2px solid #333;
+	position: absolute;
+	top: 10rem;
+	left: 3rem;
+	padding: 1rem;
+	height: 5rem;
+	width: 10rem;
+}
+
+.playerInfo p {
+	margin-bottom: .5rem;
+}
+
+.alert {
+	background: #ddd;
+	border-radius: 5px;
+	box-shadow: -10px 10px 0 -2px #F0A39E;
+	color: #222;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	flex-direction: column;
+	width: 30rem;
+	height: 20rem;
+	position: absolute;
+	left: calc(50% - 15rem);
+	top: calc(35% - 10rem);
+	z-index: 1000;
+}
+
+.alert p {
+	font-size: 2rem;
+	margin-top: 1rem;
+}
+
+.alert a {
+	background: #F0A39E;
+	color: #222;
+	font-size: 1.1rem;
+	margin-bottom: 1rem;
+}
+
+.alert a:visited {
+	color: #222;
+}
+
+.alert a:hover {
+	background: #86BBF0;
+}
+
+
 .board {
 	border-radius: 10px;
 	display: grid;
@@ -110,6 +119,7 @@ body {
 
 .square {
 	color: #333;
+	cursor: pointer;
 	font-size: 7rem;
 	font-weight: 600;
 	text-align: center;

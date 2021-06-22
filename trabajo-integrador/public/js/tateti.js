@@ -22,6 +22,7 @@ const displayWinner = (winner) => {
 
   container.appendChild(p);
   container.appendChild(a);
+  container.classList.add('alert');
 };
 
 const displayDraw = () => {
@@ -47,7 +48,7 @@ const displayCurrentTurn = (turn) => {
 
 const displayInvalidTurn = () => {
   const p = document.getElementById('invalidTurn');
-  p.textContent = 'no te toca gil';
+  p.textContent = 'No es tu turno!';
 };
 
 const deleteInvalidTurn = () => {
