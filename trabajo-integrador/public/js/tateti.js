@@ -51,9 +51,12 @@ window.addEventListener('load', () => {
   fetch('/tateti/start/?id=' + currentId)
     .then((res) => res.json())
     .then((data) => {
+
       if (currentId === '-1') {
-        document.querySelector('#urlGame').textContent =
-          window.location.href + '/?id=' + data.id;
+        let link = document.querySelector('#link');
+        link.innerHTML = `<p>${window.location.href + '/?id=' + data.id}</p>
+    <button>Copiar</button>`
+        link.classList.add('link');
       }
 
       currentTurn = data.turn;
