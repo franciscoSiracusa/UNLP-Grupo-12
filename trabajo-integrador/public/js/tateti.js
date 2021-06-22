@@ -12,27 +12,36 @@ const displayBoard = (board) => {
 };
 
 const displayWinner = () => {
-  console.log("ganaste pa")
+  console.log('ganaste pa');
 };
 
 const displayDraw = () => {};
 
 const displayPlayerTurn = (turn) => {
-  document.getElementById("playerTurn").innerHTML = "Jugas con : "+ turn;
-}
+  document.getElementById('playerTurn').innerHTML = 'Jugas con : ' + turn;
+};
 
-const displayCurrentTurn = (turn) =>{
-  document.querySelector("#currentTurn span").innerHTML = turn;
-}
+const displayCurrentTurn = (turn) => {
+  document.querySelector('#currentTurn span').innerHTML = turn;
+};
 
 const displayInvalidTurn = () => {
-  const playerInfo = document.getElementById("playerInfo")
-  playerInfo.createElement("p").textContent = "no te toca gil";
-}
+  const playerInfo = document.getElementById('playerInfo');
+  const p = document.createElement('p');
+  p.id = 'invalidTurn';
+  p.textContent = 'no te toca gil';
+  playerInfo.appendChild(p);
+};
+
+const deleteInvalidTurn = () => {
+  const playerInfo = document.getElementById('playerInfo');
+  const p = document.getElementById('invalidTurn');
+  playerInfo.removeChild(p);
+};
 
 const pollGame = (id, winner, draw, boardTurn, playerTurn) => {
   if (!winner && !draw) {
-    if (boardTurn !== playerTurn)
+    if (boardTurn !== playerTurn) {
       fetch(`/tateti/start/?id=${id}`)
         .then((res) => res.json())
         .then((data) => {
@@ -43,6 +52,9 @@ const pollGame = (id, winner, draw, boardTurn, playerTurn) => {
             pollGame(id, data.winner, data.draw, data.turn, playerTurn);
           }, 1000);
         });
+    } else {
+      deleteInvalidTurn();
+    }
   } else {
     if (winner) {
       displayWinner();
@@ -72,7 +84,7 @@ window.addEventListener('load', () => {
       if (currentId === '-1') {
         let link = document.querySelector('#link');
         link.innerHTML = `<p>${window.location.href + '/?id=' + data.id}</p>
-    <button>Copiar</button>`
+    <button>Copiar</button>`;
         link.classList.add('link');
       }
       currentTurn = data.turn;
