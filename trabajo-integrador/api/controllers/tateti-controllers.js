@@ -34,12 +34,13 @@ const checkWinner = (board, turn) => {
 };
 
 const checkDraw = (board) => {
+  let isDraw = true;
   board.forEach((element) => {
     if (element === null) {
-      return false;
+      isDraw = false;
     }
   });
-  return true;
+  return isDraw;
 };
 
 const initializeGame = (req, res) => {
