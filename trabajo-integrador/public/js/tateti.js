@@ -53,6 +53,7 @@ window.addEventListener('load', () => {
   fetch('/tateti/start/?id=' + currentId)
     .then((res) => res.json())
     .then((data) => {
+      //displayTurn(playerTurn);
 
       if (currentId === '-1') {
         let link = document.querySelector('#link');
@@ -60,7 +61,6 @@ window.addEventListener('load', () => {
     <button>Copiar</button>`
         link.classList.add('link');
       }
-
       currentTurn = data.turn;
       displayBoard(data.board);
       if (playerTurn !== currentTurn) {
