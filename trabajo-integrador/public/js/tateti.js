@@ -11,11 +11,31 @@ const displayBoard = (board) => {
   });
 };
 
-const displayWinner = () => {
-  console.log('ganaste pa');
+const displayWinner = (winner) => {
+  const container = document.getElementById('alert');
+  const p = document.createElement('p');
+  const a = document.createElement('a');
+
+  p.textContent = 'Ganador: ' + winner;
+  a.href = '/tateti';
+  a.textContent = 'Jugar de nuevo';
+
+  container.appendChild(p);
+  container.appendChild(a);
 };
 
-const displayDraw = () => {};
+const displayDraw = () => {
+  const container = document.getElementById('alert');
+  const p = document.createElement('p');
+  const a = document.createElement('a');
+
+  p.textContent = 'Empate';
+  a.href = '/tateti';
+  a.textContent = 'Jugar de nuevo';
+
+  container.appendChild(p);
+  container.appendChild(a);
+};
 
 const displayPlayerTurn = (turn) => {
   document.getElementById('playerTurn').innerHTML = 'Jugas con : ' + turn;
@@ -26,17 +46,13 @@ const displayCurrentTurn = (turn) => {
 };
 
 const displayInvalidTurn = () => {
-  const playerInfo = document.getElementById('playerInfo');
-  const p = document.createElement('p');
-  p.id = 'invalidTurn';
+  const p = document.getElementById('invalidTurn');
   p.textContent = 'no te toca gil';
-  playerInfo.appendChild(p);
 };
 
 const deleteInvalidTurn = () => {
-  const playerInfo = document.getElementById('playerInfo');
   const p = document.getElementById('invalidTurn');
-  playerInfo.removeChild(p);
+  p.textContent = '';
 };
 
 const pollGame = (id, winner, draw, boardTurn, playerTurn) => {
@@ -57,7 +73,7 @@ const pollGame = (id, winner, draw, boardTurn, playerTurn) => {
     }
   } else {
     if (winner) {
-      displayWinner();
+      displayWinner(winner);
     } else {
       displayDraw();
     }
@@ -104,7 +120,7 @@ window.addEventListener('load', () => {
                 displayBoard(data.board);
                 displayCurrentTurn(data.turn);
                 if (data.winner) {
-                  displayWinner();
+                  displayWinner(data.winner);
                 } else if (data.draw) {
                   displayDraw();
                 } else {
