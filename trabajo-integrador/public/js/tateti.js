@@ -11,7 +11,9 @@ const displayBoard = (board) => {
   });
 };
 
-const displayWinner = () => {};
+const displayWinner = () => {
+  console.log("ganaste pa")
+};
 
 const displayDraw = () => {};
 
@@ -89,7 +91,7 @@ window.addEventListener('load', () => {
                 }
               });
           } else {
-            console.log('No es tu turno pa');
+            displayInvalidTurn();
           }
         });
       });

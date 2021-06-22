@@ -43,6 +43,11 @@ const checkDraw = (board) => {
   return isDraw;
 };
 
+const deleteBoard = (id) => {
+  games.splice(games.findIndex((obj) =>obj.id === id),1);
+  console.log(games)
+}
+
 const initializeGame = (req, res) => {
   let currentBoard;
 
@@ -82,6 +87,9 @@ const updateGame = (req, res) => {
   }
   //borrar board luego de haber terminado el partido, debe pasar un tiempo (hacer un pop)
   res.send(currentBoard);
+  if (currentBoard.winner || currentBoard.draw) {
+    setTimeout(deleteBoard,3000,currentBoard.id);
+  }
 };
 
 module.exports = {
