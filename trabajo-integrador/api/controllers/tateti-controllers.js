@@ -55,10 +55,9 @@ const initializeGame = (req, res) => {
   if (req.query.id === '-1') {
     //si no existe, se crea un nuevo juego
     currentBoard = {
-      id: uuidv4(), //Math.floor(Math.random() * 1000).toString(), uuid
+      id: uuidv4(),
       board: [null, null, null, null, null, null, null, null, null],
-      turn: 'X', // posiblemente debe hacer una id para cada jugador
-      //posible atributo: invalidMove : true/false
+      turn: ["X", "O"][Math.floor(Math.random() * ["X", "O"].length)], 
       winner: null,
       draw: false,
     };
@@ -85,7 +84,7 @@ const updateGame = (req, res) => {
       currentBoard.turn = currentBoard.turn === 'X' ? 'O' : 'X';
     }
   }
-  //borrar board luego de haber terminado el partido, debe pasar un tiempo (hacer un pop)
+
   res.send(currentBoard);
   if (currentBoard.winner || currentBoard.draw) {
     setTimeout(deleteBoard,3000,currentBoard.id);
@@ -97,6 +96,6 @@ module.exports = {
   updateGame,
 };
 
-// para el metodo borrar hay dos condiciones, que haya ganado o que empaten, comprobar que winner=false y el arreglo esta lleno ---> hacer una funtion que busque el juego por id y lo borre en los casos
 
-// en el momento de borrar el tablero al finalizar, hay que esperar mas de 3 seg
+
+

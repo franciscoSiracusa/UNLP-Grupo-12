@@ -17,6 +17,19 @@ const displayWinner = () => {
 
 const displayDraw = () => {};
 
+const displayPlayerTurn = (turn) => {
+  document.getElementById("playerTurn").innerHTML = "Jugas con : "+ turn;
+}
+
+const displayCurrentTurn = (turn) =>{
+  document.querySelector("#currentTurn span").innerHTML = turn;
+}
+
+const displayInvalidTurn = () => {
+  const playerInfo = document.getElementById("playerInfo")
+  playerInfo.createElement("p").textContent = "no te toca gil";
+}
+
 const pollGame = (id, winner, draw, boardTurn, playerTurn) => {
   if (!winner && !draw) {
     if (boardTurn !== playerTurn)
@@ -24,6 +37,7 @@ const pollGame = (id, winner, draw, boardTurn, playerTurn) => {
         .then((res) => res.json())
         .then((data) => {
           displayBoard(data.board);
+          displayCurrentTurn(data.turn);
           currentTurn = data.turn;
           setTimeout(() => {
             pollGame(id, data.winner, data.draw, data.turn, playerTurn);
@@ -53,8 +67,8 @@ window.addEventListener('load', () => {
   fetch('/tateti/start/?id=' + currentId)
     .then((res) => res.json())
     .then((data) => {
-      //displayTurn(playerTurn);
-
+      displayPlayerTurn(playerTurn);
+      displayCurrentTurn(data.turn);
       if (currentId === '-1') {
         let link = document.querySelector('#link');
         link.innerHTML = `<p>${window.location.href + '/?id=' + data.id}</p>
@@ -69,13 +83,14 @@ window.addEventListener('load', () => {
 
       document.querySelectorAll('.square').forEach((square) => {
         square.addEventListener('click', (e) => {
-          if (playerTurn === currentTurn) {
+          if (playerTurn === currentTurn && !data.winner && !data.draw) {
             fetch(`/tateti/?square=${e.target.dataset.number}&id=${data.id}`, {
               method: 'PATCH',
             })
               .then((res) => res.json())
               .then((data) => {
                 displayBoard(data.board);
+                displayCurrentTurn(data.turn);
                 if (data.winner) {
                   displayWinner();
                 } else if (data.draw) {

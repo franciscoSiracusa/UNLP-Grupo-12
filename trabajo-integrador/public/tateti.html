@@ -9,8 +9,10 @@
 <body>
 	<h1 class="title">Tateti</h1>
 	<div id="link"></div>
-
-
+	<div id="playerInfo">
+		<p id="playerTurn"></p>
+		<p id="currentTurn">Turno: <span></span> </p>
+	</div>
 	<div class="board">
 		<div class="square" data-number="0"></div>
 		<div class="square" data-number="1"></div>
@@ -22,17 +24,5 @@
 		<div class="square" data-number="7"></div>
 		<div class="square" data-number="8"></div>
 	</div>
-	<!-- <script>
-		const script = document.createElement('script');
-        script.defer = true;
-        script.type = "text/javascript"
-        script.src = window.location.href.split('/tateti')[0] + "/js/tateti.js";
-        const link = document.createElement('link')
-        link.rel = "stylesheet"
-        link.type = "text/css"
-        link.href = window.location.href.split('/tateti')[0] + "/css/tateti.css"
-        document.head.appendChild(link)
-        document.head.appendChild(script)
-	</script>-->
 </body>
 </html>
