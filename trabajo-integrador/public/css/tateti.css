@@ -25,16 +25,21 @@ body {
 	border-radius: 2rem;
 	box-shadow: 1px -1px 6px #bbb inset;
 	display: flex;
+	justify-content: space-between;
 	padding-left: 1rem;
 	margin: 1rem auto 3rem auto;
-	width: fit-content;
+	width: 23rem;
 }
 
-.link p {
+.link input {
+	background: transparent;
+	border: none;
+	height: 100%;
 	font-size: .8rem;
 	color: #333;
 	padding-right: 1rem;
 	margin-top: 1rem;
+	width: 18rem;
 }
 
 .link button {

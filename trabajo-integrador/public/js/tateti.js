@@ -5,6 +5,13 @@
 */
 let currentTurn;
 
+const copy = () => {
+  let copyText = document.querySelector("#link input");
+  copyText.select();
+  copyText.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+}
+
 const displayBoard = (board) => {
   document.querySelectorAll('.square').forEach((squere, index) => {
     squere.textContent = board[index];
@@ -36,6 +43,7 @@ const displayDraw = () => {
 
   container.appendChild(p);
   container.appendChild(a);
+  container.classList.add('alert');
 };
 
 const displayPlayerTurn = (turn) => {
@@ -100,8 +108,8 @@ window.addEventListener('load', () => {
       displayCurrentTurn(data.turn);
       if (currentId === '-1') {
         let link = document.querySelector('#link');
-        link.innerHTML = `<p>${window.location.href + '/?id=' + data.id}</p>
-    <button>Copiar</button>`;
+        link.innerHTML = `<input type="text" value="${window.location.href + '/?id=' + data.id}" disable>
+    <button onclick="copy()">Copiar</button>`;
         link.classList.add('link');
       }
       currentTurn = data.turn;
