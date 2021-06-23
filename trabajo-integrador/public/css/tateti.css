@@ -40,6 +40,7 @@ body {
 	padding-right: 1rem;
 	margin-top: 1rem;
 	width: 18rem;
+	outline: none;
 }
 
 .link button {

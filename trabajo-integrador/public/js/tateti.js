@@ -108,7 +108,7 @@ window.addEventListener('load', () => {
       displayCurrentTurn(data.turn);
       if (currentId === '-1') {
         let link = document.querySelector('#link');
-        link.innerHTML = `<input type="text" value="${window.location.href + '/?id=' + data.id}" disable>
+        link.innerHTML = `<input type="text" value="${window.location.href + '?id=' + data.id}" disabled>
     <button onclick="copy()">Copiar</button>`;
         link.classList.add('link');
       }
