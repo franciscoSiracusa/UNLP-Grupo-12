@@ -2,6 +2,25 @@ const { v4: uuidv4 } = require('uuid');
 
 let games = [];
 
+const arePlayersReady = (players) => {
+	return players[0].ready && players[1].ready;
+}
+
+// retorna 0 si gana player0
+//         1 si gana player1
+//         -1 si hay empate
+const checkResult = (players) => {
+  const option1 = players[0].option;
+  const option2 = players[1].option;
+
+  // if (todas las opciones)
+  // return 
+}
+
+const checkDraw = () => {
+
+}
+
 const searchGame = (id) => {
   return games.find((obj) => obj.id === id);
 };
@@ -15,16 +34,17 @@ const initializeGame = (req, res) => {
       players: [
 	      {
 	      	points: 0,
-	      	ready: false
+	      	ready: false,
+	      	option: null
 	      },
 	      {
 	      	points: 0,
-	      	ready: false
+	      	ready: false,
+	      	option: null
 	      }
       ],
       id: uuidv4(),
-      winner: null,
-      draw: false,
+      result: null,
     };
     games.push(currentGame);
   } else {
@@ -34,6 +54,21 @@ const initializeGame = (req, res) => {
   res.send(currentGame);
 };
 
+const updateGame = (req, res) => {
+  let currentGame = searchGame(req.query.id);
+
+  currentGame.players[req.query.player].option = req.query.option;
+  currentGame.players[req.query.player].ready = true;
+
+  if (arePlayersReady(currentGame.players)) {
+  	currentGame.result = checkResult(currentGame.players);
+  }
+
+  res.send(currentGame);
+
+  // puede ser que borremos el juego del array en el evento beforeunload
+  // hay que hacer un resetGame cuando se hace rematch
+};
 
 module.exports = {
   initializeGame,

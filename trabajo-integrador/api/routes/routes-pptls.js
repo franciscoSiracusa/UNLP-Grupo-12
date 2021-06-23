@@ -7,6 +7,8 @@ router.get('/pptls', (req, res) => {
 	res.sendFile('/pptls.html', { root: path.join(__dirname,'../','../','public') });
 });
 
-outer.get('/pptls/start', pptlsControllers.initializeGame);
+router.patch('/pptls', pptlsControllers.updateGame);
+
+router.get('/pptls/start', pptlsControllers.initializeGame);
 
 module.exports = router;
