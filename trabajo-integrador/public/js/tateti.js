@@ -1,8 +1,3 @@
-/*  TODO
-	Display X y O
-	No ejecutar evento si el square ya se clickeo
-	Hacer que el url tenga en la ruta el id, para que puedan jugar dos personas
-*/
 let currentTurn;
 
 const copy = () => {
