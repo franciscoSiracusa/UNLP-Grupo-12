@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;300;600&display=swap');
+@import url('reset.css');
+
+html {
+	height: 100%;
+}
+
+body {
+	background: #86BBF0;
+	font-family: 'Roboto Mono', "sans-serif;";
+	min-height: 100%;
+	margin: 2rem;
+}
+
+.title {
+	color: #F0A39E;
+	font-weight: 700;
+	font-size: 6rem;
+	text-shadow: 1px 1px 5px #6E99C4;
+	margin-bottom: 5rem;
+}
+
+a {
+	color: #222;
+	font-size: 2rem;
+}

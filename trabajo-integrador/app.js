@@ -25,3 +25,8 @@ app.use(require('./api/routes/routes-tateti.js'));
 app.use(require('./api/routes/routes-pptls.js'));
 
 app.use(require('./api/routes/routes-ahorcado.js'));
+
+// 404
+app.use((req, res) => {
+  res.status(404).sendFile('./public/404.html', { root: __dirname });
+})
