@@ -3,8 +3,8 @@ const { v4: uuidv4 } = require('uuid');
 let games = [];
 
 const arePlayersReady = (players) => {
-	return players[0].ready && players[1].ready;
-}
+  return players[0].ready && players[1].ready;
+};
 
 // retorna 0 si gana player0
 //         1 si gana player1
@@ -14,12 +14,10 @@ const checkResult = (players) => {
   const option2 = players[1].option;
 
   // if (todas las opciones)
-  // return 
-}
+  // return
+};
 
-const checkDraw = () => {
-
-}
+const checkDraw = () => {};
 
 const searchGame = (id) => {
   return games.find((obj) => obj.id === id);
@@ -32,16 +30,16 @@ const initializeGame = (req, res) => {
     //si no existe, se crea un nuevo juego
     currentGame = {
       players: [
-	      {
-	      	points: 0,
-	      	ready: false,
-	      	option: null
-	      },
-	      {
-	      	points: 0,
-	      	ready: false,
-	      	option: null
-	      }
+        {
+          points: 0,
+          ready: false,
+          option: null,
+        },
+        {
+          points: 0,
+          ready: false,
+          option: null,
+        },
       ],
       id: uuidv4(),
       result: null,
@@ -61,7 +59,8 @@ const updateGame = (req, res) => {
   currentGame.players[req.query.player].ready = true;
 
   if (arePlayersReady(currentGame.players)) {
-  	currentGame.result = checkResult(currentGame.players);
+    currentGame.result = checkResult(currentGame.players);
+    //el ganador deberia sumar un punto
   }
 
   res.send(currentGame);

@@ -1,46 +1,46 @@
-
-
 const copy = () => {
-  let copyText = document.querySelector("#link input");
+  let copyText = document.querySelector('#link input');
   copyText.select();
   copyText.setSelectionRange(0, 99999);
-  document.execCommand("copy");
-}
+  document.execCommand('copy');
+};
 
 // imprime el resultado del player
-const displayPlayerResult = (players) => {
+const displayPlayerOption = (player) => {};
 
-}
+const displayEnemyOption = (player) => {};
 
-// imprime en pantalla el resultado de la partida
-const displayFinalResult = (game) => {
+const displayPoints = () => {};
 
-}
-
-const pollGame = (id, players) => {
-  if (!players[0].ready && !players[1].ready) {
-    fetch(`/pptls/start/?id=${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        displayFinalResult(data);
-        displayCurrentTurn(data.turn);
-        currentTurn = data.turn;
-        setTimeout(() => {
-          pollGame(id, data.winner, data.draw, data.turn, playerTurn);
-        }, 1000);
-      });
-    } else {
-      deleteInvalidTurn();
-    }
+const displayGameResult = () => {
+  if (game.result === 0) {
   } else {
-    if (winner) {
-      displayWinner(winner);
-    } else {
-      displayDraw();
-    }
   }
 };
 
+const displayRematch = () => {};
+
+// imprime en pantalla el resultado de la partida
+const displayFinalResult = (game) => {
+  displayEnemyOption();
+  displayGameResult();
+  displayPoints();
+  displayRematch();
+};
+
+const pollGame = (id) => {
+  fetch(`/pptls/start/?id=${id}`)
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.players[0].ready && data.players[1].ready) {
+        displayFinalResult(data);
+      } else {
+        setTimeout(() => {
+          pollGame(id);
+        }, 500);
+      }
+    });
+};
 
 window.addEventListener('load', () => {
   let currentId;
@@ -54,49 +54,38 @@ window.addEventListener('load', () => {
     playerNum = 1;
   }
 
-  fetch('/tateti/start/?id=' + currentId)
+  fetch('/pptls/start/?id=' + currentId)
     .then((res) => res.json())
     .then((data) => {
-
       if (currentId === '-1') {
         let link = document.querySelector('#link');
-        link.innerHTML = `<input type="text" value="${window.location.href + '?id=' + data.id}" disabled>
+        link.innerHTML = `<input type="text" value="${
+          window.location.href + '?id=' + data.id
+        }" disabled>
     <button onclick="copy()">Copiar</button>`;
         link.classList.add('link');
       }
 
-      
-    // pollGame(data.id, data.winner, data.draw);
+      // pollGame(data.id, data.winner, data.draw);
 
       document.querySelectorAll('.option').forEach((option) => {
         option.addEventListener('click', (e) => {
-        //  if (!data.players[playerNum].option) {
-            fetch(`/pptls/?option=${e.target.dataset.option}&id=${data.id}&player=${playerNum}`, {
+          fetch(
+            `/pptls/?option=${e.target.dataset.option}&id=${data.id}&player=${playerNum}`,
+            {
               method: 'PATCH',
-            })
-              .then((res) => res.json())
-              .then((data) => {
-                displayPlayerResult(data.players);
+            }
+          )
+            .then((res) => res.json())
+            .then((data) => {
+              displayPlayerOption();
+              if (data.players[0].ready && data.players[1].ready) {
+                displayFinalResult();
+              } else {
                 // checkea el estado del juego hasta que ambos esten ready
-                pollGame()
-
-                // nos quedamos aca
-
-                if (data.winner) {
-                  displayWinner(data.winner);
-                } else if (data.draw) {
-                  displayDraw();
-                } else {
-                  pollGame(
-                    data.id,
-                    data.winner,
-                    data.draw,
-                    data.turn,
-                    playerTurn
-                  );
-                }
-              });
-          // }
+                pollGame(data.id);
+              }
+            });
         });
       });
     });
