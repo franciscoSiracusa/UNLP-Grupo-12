@@ -51,15 +51,15 @@ const displayGameResult = () => {
 };
 
 const displayRematch = (id) => {
-  document.getElementById('rematch').innerHTML = '';
   const btn = document.createElement('button');
   btn.textContent = 'Rematch';
+  document.getElementById('rematch').appendChild(btn);
   btn.addEventListener('click', () => {
+    document.getElementById('rematch').innerHTML = '';
     createOptions(id);
     fetch(`/pptls/reset?id=${id}`, {
       method: 'POST',
-    })
-      .then;
+    });
   });
 };
 
@@ -87,7 +87,6 @@ const pollGame = (id) => {
 
 window.addEventListener('load', () => {
   let currentId;
-  
 
   if (window.location.href.split('?')[1] === undefined) {
     currentId = '-1';
@@ -96,8 +95,6 @@ window.addEventListener('load', () => {
     currentId = window.location.href.split('=')[1];
     playerNum = 1;
   }
-
-  
 
   fetch('/pptls/start?id=' + currentId)
     .then((res) => res.json())
@@ -112,6 +109,6 @@ window.addEventListener('load', () => {
       }
 
       // pollGame(data.id, data.winner, data.draw);
-      createOptions(data.id,playerNum);
+      createOptions(data.id, playerNum);
     });
 });
