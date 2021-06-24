@@ -1,3 +1,5 @@
+let playerNum;
+
 const copy = () => {
   let copyText = document.querySelector('#link input');
   copyText.select();
@@ -5,9 +7,31 @@ const copy = () => {
   document.execCommand('copy');
 };
 
-const createOptions = () => {
+const createOptions = (id) => {
   document.getElementById('options').innerHTML =
     '<div class="option" data-option="rock">rock</div> <div class="option" data-option="paper">paper</div>  <div class="option" data-option="scissors">scissors</div>  <div class="option" data-option="lizard">lizard</div>  <div class="option" data-option="spock">spock</div>';
+
+  document.querySelectorAll('.option').forEach((option) => {
+    option.addEventListener('click', (e) => {
+      fetch(
+        `/pptls?option=${e.target.dataset.option}&id=${id}&player=${playerNum}`,
+        {
+          method: 'PATCH',
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          deleteOptions();
+          displayPlayerOption();
+          if (data.players[0].ready && data.players[1].ready) {
+            displayFinalResult(data);
+          } else {
+            // checkea el estado del juego hasta que ambos esten ready
+            pollGame(data.id);
+          }
+        });
+    });
+  });
 };
 
 const deleteOptions = () => {
@@ -27,19 +51,16 @@ const displayGameResult = () => {
 };
 
 const displayRematch = (id) => {
+  document.getElementById('rematch').innerHTML = '';
   const btn = document.createElement('button');
   btn.textContent = 'Rematch';
   btn.addEventListener('click', () => {
-    createOptions();
+    createOptions(id);
     fetch(`/pptls/reset?id=${id}`, {
-      method: 'PATCH',
+      method: 'POST',
     })
-      .then((res) => res.json())
-      .then((data) => {
-        //
-      });
+      .then;
   });
-  document.body.appendChild(btn);
 };
 
 // imprime en pantalla el resultado de la partida
@@ -66,7 +87,7 @@ const pollGame = (id) => {
 
 window.addEventListener('load', () => {
   let currentId;
-  let playerNum;
+  
 
   if (window.location.href.split('?')[1] === undefined) {
     currentId = '-1';
@@ -76,7 +97,7 @@ window.addEventListener('load', () => {
     playerNum = 1;
   }
 
-  createOptions();
+  
 
   fetch('/pptls/start?id=' + currentId)
     .then((res) => res.json())
@@ -91,27 +112,6 @@ window.addEventListener('load', () => {
       }
 
       // pollGame(data.id, data.winner, data.draw);
-
-      document.querySelectorAll('.option').forEach((option) => {
-        option.addEventListener('click', (e) => {
-          fetch(
-            `/pptls?option=${e.target.dataset.option}&id=${data.id}&player=${playerNum}`,
-            {
-              method: 'PATCH',
-            }
-          )
-            .then((res) => res.json())
-            .then((data) => {
-              deleteOptions();
-              displayPlayerOption();
-              if (data.players[0].ready && data.players[1].ready) {
-                displayFinalResult(data);
-              } else {
-                // checkea el estado del juego hasta que ambos esten ready
-                pollGame(data.id);
-              }
-            });
-        });
-      });
+      createOptions(data.id,playerNum);
     });
 });

@@ -13,6 +13,6 @@ router.get('/pptls/start', pptlsControllers.initializeGame);
 
 router.patch('/pptls', pptlsControllers.updateGame);
 
-router.patch('/pptls/reset', pptlsControllers.reset);
+router.post('/pptls/reset', pptlsControllers.reset);
 
 module.exports = router;

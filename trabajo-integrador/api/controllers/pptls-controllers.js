@@ -79,8 +79,6 @@ const reset = (req, res) => {
   currentGame.players[1].ready = false;
   currentGame.players[1].option = null;
   currentGame.result = null;
-
-  res.send(currentGame);
 };
 
 module.exports = {
