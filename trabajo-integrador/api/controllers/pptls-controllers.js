@@ -12,7 +12,7 @@ const arePlayersReady = (players) => {
 const checkResult = (players) => {
   const option1 = players[0].option;
   const option2 = players[1].option;
-
+  return 1;
   // if (todas las opciones)
   // return
 };
@@ -60,7 +60,9 @@ const updateGame = (req, res) => {
 
   if (arePlayersReady(currentGame.players)) {
     currentGame.result = checkResult(currentGame.players);
-    //el ganador deberia sumar un punto
+    if (currentGame.result !== -1) {
+      currentGame.players[currentGame.result].points++;
+    }
   }
 
   res.send(currentGame);
@@ -69,7 +71,20 @@ const updateGame = (req, res) => {
   // hay que hacer un resetGame cuando se hace rematch
 };
 
+const reset = (req, res) => {
+  let currentGame = searchGame(req.query.id);
+
+  currentGame.players[0].ready = false;
+  currentGame.players[0].option = null;
+  currentGame.players[1].ready = false;
+  currentGame.players[1].option = null;
+  currentGame.result = null;
+
+  res.send(currentGame);
+};
+
 module.exports = {
   initializeGame,
   updateGame,
+  reset,
 };

@@ -5,7 +5,15 @@ const copy = () => {
   document.execCommand('copy');
 };
 
-// imprime el resultado del player
+const createOptions = () => {
+  document.getElementById('options').innerHTML =
+    '<div class="option" data-option="rock">rock</div> <div class="option" data-option="paper">paper</div>  <div class="option" data-option="scissors">scissors</div>  <div class="option" data-option="lizard">lizard</div>  <div class="option" data-option="spock">spock</div>';
+};
+
+const deleteOptions = () => {
+  document.getElementById('options').innerHTML = '';
+};
+
 const displayPlayerOption = (player) => {};
 
 const displayEnemyOption = (player) => {};
@@ -13,23 +21,37 @@ const displayEnemyOption = (player) => {};
 const displayPoints = () => {};
 
 const displayGameResult = () => {
-  if (game.result === 0) {
+  /*  if (game.result === 0) {
   } else {
-  }
+  } */
 };
 
-const displayRematch = () => {};
+const displayRematch = (id) => {
+  const btn = document.createElement('button');
+  btn.textContent = 'Rematch';
+  btn.addEventListener('click', () => {
+    createOptions();
+    fetch(`/pptls/reset?id=${id}`, {
+      method: 'PATCH',
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        //
+      });
+  });
+  document.body.appendChild(btn);
+};
 
 // imprime en pantalla el resultado de la partida
 const displayFinalResult = (game) => {
   displayEnemyOption();
   displayGameResult();
   displayPoints();
-  displayRematch();
+  displayRematch(game.id);
 };
 
 const pollGame = (id) => {
-  fetch(`/pptls/start/?id=${id}`)
+  fetch(`/pptls/start?id=${id}`)
     .then((res) => res.json())
     .then((data) => {
       if (data.players[0].ready && data.players[1].ready) {
@@ -54,7 +76,9 @@ window.addEventListener('load', () => {
     playerNum = 1;
   }
 
-  fetch('/pptls/start/?id=' + currentId)
+  createOptions();
+
+  fetch('/pptls/start?id=' + currentId)
     .then((res) => res.json())
     .then((data) => {
       if (currentId === '-1') {
@@ -71,16 +95,17 @@ window.addEventListener('load', () => {
       document.querySelectorAll('.option').forEach((option) => {
         option.addEventListener('click', (e) => {
           fetch(
-            `/pptls/?option=${e.target.dataset.option}&id=${data.id}&player=${playerNum}`,
+            `/pptls?option=${e.target.dataset.option}&id=${data.id}&player=${playerNum}`,
             {
               method: 'PATCH',
             }
           )
             .then((res) => res.json())
             .then((data) => {
+              deleteOptions();
               displayPlayerOption();
               if (data.players[0].ready && data.players[1].ready) {
-                displayFinalResult();
+                displayFinalResult(data);
               } else {
                 // checkea el estado del juego hasta que ambos esten ready
                 pollGame(data.id);
