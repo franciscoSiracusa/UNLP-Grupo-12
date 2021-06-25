@@ -17,8 +17,6 @@ const checkResult = (players) => {
   // return
 };
 
-const checkDraw = () => {};
-
 const searchGame = (id) => {
   return games.find((obj) => obj.id === id);
 };
@@ -34,11 +32,13 @@ const initializeGame = (req, res) => {
           points: 0,
           ready: false,
           option: null,
+          connected: false,
         },
         {
           points: 0,
           ready: false,
           option: null,
+          connected: false,
         },
       ],
       id: uuidv4(),
@@ -68,7 +68,6 @@ const updateGame = (req, res) => {
   res.send(currentGame);
 
   // puede ser que borremos el juego del array en el evento beforeunload
-  // hay que hacer un resetGame cuando se hace rematch
 };
 
 const reset = (req, res) => {
@@ -83,8 +82,21 @@ const reset = (req, res) => {
   res.sendStatus(200);
 };
 
+const toggleConnect = (req, res) => {
+  let currentGame = searchGame(req.query.id);
+
+  if (currentGame.players[req.query.player].connected) {
+    currentGame.players[req.query.player].connected = false;
+  } else {
+    currentGame.players[req.query.player].connected = true;
+  }
+
+  res.sendStatus(200);
+};
+
 module.exports = {
   initializeGame,
   updateGame,
   reset,
+  toggleConnect,
 };

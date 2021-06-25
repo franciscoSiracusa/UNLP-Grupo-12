@@ -50,6 +50,14 @@ const displayGameResult = () => {
   } */
 };
 
+const toggleConnect = (id, num) => {
+  fetch(`/pptls/toggleConnect?id=${id}&player=${playerNum}`, {
+    method: 'POST',
+  });
+};
+
+const disconectPlayer = () => {};
+
 const displayRematch = (id) => {
   const btn = document.createElement('button');
   btn.textContent = 'Rematch';
@@ -108,7 +116,12 @@ window.addEventListener('load', () => {
         link.classList.add('link');
       }
 
-      // pollGame(data.id, data.winner, data.draw);
+      toggleConnect(data.id, playerNum);
+
+      window.addEventListener('beforeunload', () => {
+        toggleConnect(data.id, playerNum);
+      });
+
       createOptions(data.id, playerNum);
     });
 });

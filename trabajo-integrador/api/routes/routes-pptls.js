@@ -15,4 +15,6 @@ router.patch('/pptls', pptlsControllers.updateGame);
 
 router.post('/pptls/reset', pptlsControllers.reset);
 
+router.post('/pptls/toggleConnect', pptlsControllers.toggleConnect);
+
 module.exports = router;
