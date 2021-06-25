@@ -32,13 +32,13 @@ const initializeGame = (req, res) => {
           points: 0,
           ready: false,
           option: null,
-          connected: false,
+          /* connected: false, */
         },
         {
           points: 0,
           ready: false,
           option: null,
-          connected: false,
+          /* connected: false, */
         },
       ],
       id: uuidv4(),
@@ -82,7 +82,7 @@ const reset = (req, res) => {
   res.sendStatus(200);
 };
 
-const toggleConnect = (req, res) => {
+/* const toggleConnect = (req, res) => {
   let currentGame = searchGame(req.query.id);
 
   if (currentGame.players[req.query.player].connected) {
@@ -92,11 +92,11 @@ const toggleConnect = (req, res) => {
   }
 
   res.sendStatus(200);
-};
+}; */
 
 module.exports = {
   initializeGame,
   updateGame,
   reset,
-  toggleConnect,
+  /* toggleConnect, */
 };

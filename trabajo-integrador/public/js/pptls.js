@@ -52,11 +52,11 @@ const displayGameResult = () => {
   } */
 };
 
-const toggleConnect = (id, num) => {
+/* const toggleConnect = (id, num) => {
   fetch(`/pptls/toggleConnect?id=${id}&player=${playerNum}`, {
     method: 'POST',
   });
-};
+}; */
 
 const disconectPlayer = () => {};
 
@@ -118,11 +118,11 @@ window.addEventListener('load', () => {
         link.classList.add('link');
       }
 
-      toggleConnect(data.id, playerNum);
+      /* toggleConnect(data.id, playerNum);
 
       window.addEventListener('beforeunload', () => {
         toggleConnect(data.id, playerNum);
-      });
+      }); */
 
       createOptions(data.id, playerNum);
     });
