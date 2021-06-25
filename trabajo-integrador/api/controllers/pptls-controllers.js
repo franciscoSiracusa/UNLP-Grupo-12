@@ -74,11 +74,13 @@ const updateGame = (req, res) => {
 const reset = (req, res) => {
   let currentGame = searchGame(req.query.id);
 
-  currentGame.players[0].ready = false;
-  currentGame.players[0].option = null;
-  currentGame.players[1].ready = false;
-  currentGame.players[1].option = null;
-  currentGame.result = null;
+  currentGame.players[req.query.player].ready = false;
+  currentGame.players[req.query.player].option = null;
+  if (!currentGame.players[0].ready && !currentGame.players[1].ready) {
+    //si ambos ya apretaron el boton de rematch
+    currentGame.result = null;
+  }
+  res.sendStatus(200);
 };
 
 module.exports = {

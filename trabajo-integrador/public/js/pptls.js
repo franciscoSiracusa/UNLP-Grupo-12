@@ -57,7 +57,7 @@ const displayRematch = (id) => {
   btn.addEventListener('click', () => {
     document.getElementById('rematch').innerHTML = '';
     createOptions(id);
-    fetch(`/pptls/reset?id=${id}`, {
+    fetch(`/pptls/reset?id=${id}&player=${playerNum}`, {
       method: 'POST',
     });
   });
