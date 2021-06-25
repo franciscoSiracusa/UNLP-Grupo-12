@@ -7,6 +7,8 @@ const copy = () => {
   document.execCommand('copy');
 };
 
+const displayConnect = () => {};
+
 const createOptions = (id) => {
   document.getElementById('options').innerHTML =
     '<div class="option" data-option="rock">rock</div> <div class="option" data-option="paper">paper</div>  <div class="option" data-option="scissors">scissors</div>  <div class="option" data-option="lizard">lizard</div>  <div class="option" data-option="spock">spock</div>';
