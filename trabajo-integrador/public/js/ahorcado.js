@@ -15,17 +15,16 @@ const displayWordInput = (id) => {
   input.placeholder = 'Insertar Palabra';
 
   submit.type = 'submit';
-  submit.textContent = 'Ingresar';
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     fetch(encodeURI(`/ahorcado/setWord?id=${id}&word=${e.target.word.value}`), {
-      method: 'POST',
+      method: 'PATCH',
     })
-      .then((res) => res.json)
+      .then((res) => res.json())
       .then((data) => {
         e.target.reset();
         //removeWordInput
-        //pollgameWritter
+        pollgameWritter(data.id);
       });
   });
 
@@ -33,20 +32,63 @@ const displayWordInput = (id) => {
   form.appendChild(submit);
 };
 
-const displayCurrentWord = () => {};
+const displayCurrentWord = (currentword) => {
+  document.getElementById('currentWord-container').textContent = currentword;
+};
 
-const displayLetterInput = () => {};
+const displayLetterInput = (id) => {
+  const form = document.getElementById('form');
+  const input = document.createElement('input');
+  const submit = document.createElement('input');
+
+  input.id = 'letter';
+  input.name = 'letter';
+  input.maxLength = 1;
+  input.placeholder = 'Insertar Letra';
+
+  submit.type = 'submit';
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    fetch(
+      encodeURI(`/ahorcado/attempt?id=${id}&letter=${e.target.letter.value}`),
+      {
+        method: 'PATCH',
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        e.target.reset();
+        displayCurrentWord(data.currentWord);
+      });
+  });
+
+  form.appendChild(input);
+  form.appendChild(submit);
+};
 
 const pollGameGuest = (id) => {
   fetch(`/ahorcado/start?id=${id}`)
     .then((res) => res.json())
     .then((data) => {
       if (data.word) {
-        displayCurrentWord();
-        displayLetterInput();
+        displayCurrentWord(data.currentWord);
+        displayLetterInput(id);
       } else {
         setTimeout(() => {
           pollGameGuest(id);
+        }, 500);
+      }
+    });
+};
+
+const pollgameWritter = (id) => {
+  fetch(`/ahorcado/start?id=${id}`)
+    .then((res) => res.json())
+    .then((data) => {
+      displayCurrentWord(data.currentWord);
+      if (data.alive && data.word !== data.currentWord) {
+        setTimeout(() => {
+          pollgameWritter(id);
         }, 500);
       }
     });

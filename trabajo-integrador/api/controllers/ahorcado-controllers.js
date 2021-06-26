@@ -18,8 +18,19 @@ const setCurrentWord = ([...word]) => {
   return currentWord;
 };
 
-const checkWord = (word, currentWord) => {
-  word.forEach((letter) => {});
+const checkWord = (game, letter) => {
+  let wordArray = [...game.word];
+  let success = false;
+  wordArray.forEach((wordletter, index) => {
+    if (letter === wordletter) {
+      game.currentWord =
+        game.currentWord.substr(0, index) +
+        letter +
+        game.currentWord.substr(index + 1);
+      success = true;
+    }
+  });
+  return success;
 };
 
 const initializeGame = (req, res) => {
@@ -32,10 +43,11 @@ const initializeGame = (req, res) => {
       writter: [0, 1][Math.floor(Math.random() * [0, 1].length)],
       //quizas deberia haber unos puntos
       id: uuidv4(),
-      word: null, //salchicha y pan
+      word: null,
       currentWord: null,
-      letter: null,
-      attemps: 0,
+      attempts: 0,
+      letters: '',
+      alive: true,
     };
     games.push(currentGame);
   } else {
@@ -51,10 +63,32 @@ const setWord = (req, res) => {
 
   currentGame.currentWord = setCurrentWord(currentGame.word);
 
-  res.sendStatus(200);
+  res.send(currentGame);
+};
+
+const attempt = (req, res) => {
+  let currentGame = searchGame(req.query.id);
+
+  if (!currentGame.letters.includes(req.query.letter.toLowerCase())) {
+    currentGame.letters += req.query.letter.toLowerCase();
+
+    if (!checkWord(currentGame, req.query.letter.toLowerCase())) {
+      currentGame.attempts++;
+      if (currentGame.attempts === 6) {
+        currentGame.alive = false;
+      }
+      console.log(currentGame.attempts);
+    }
+  }
+  res.send(currentGame);
 };
 
 module.exports = {
   initializeGame,
   setWord,
+  attempt,
 };
+
+// salamin con queso
+// _a_a___ ___ _____
+// a

@@ -8,6 +8,8 @@ router.get('/ahorcado', (req, res) => {
 
 router.get('/ahorcado/start', ahorcadoControllers.initializeGame);
 
-router.post('/ahorcado/setWord', ahorcadoControllers.setWord);
+router.patch('/ahorcado/setWord', ahorcadoControllers.setWord);
+
+router.patch('/ahorcado/attempt', ahorcadoControllers.attempt);
 
 module.exports = router;
