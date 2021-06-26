@@ -35,6 +35,7 @@ const initializeGame = (req, res) => {
       word: null, //salchicha y pan
       currentWord: null,
       letter: null,
+      attemps: 0,
     };
     games.push(currentGame);
   } else {
@@ -50,7 +51,6 @@ const setWord = (req, res) => {
 
   currentGame.currentWord = setCurrentWord(currentGame.word);
 
-  console.log(currentGame);
   res.sendStatus(200);
 };
 

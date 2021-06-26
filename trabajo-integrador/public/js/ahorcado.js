@@ -24,6 +24,8 @@ const displayWordInput = (id) => {
       .then((res) => res.json)
       .then((data) => {
         e.target.reset();
+        //removeWordInput
+        //pollgameWritter
       });
   });
 
@@ -31,7 +33,24 @@ const displayWordInput = (id) => {
   form.appendChild(submit);
 };
 
+const displayCurrentWord = () => {};
+
 const displayLetterInput = () => {};
+
+const pollGameGuest = (id) => {
+  fetch(`/ahorcado/start?id=${id}`)
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.word) {
+        displayCurrentWord();
+        displayLetterInput();
+      } else {
+        setTimeout(() => {
+          pollGameGuest(id);
+        }, 500);
+      }
+    });
+};
 
 window.addEventListener('load', () => {
   let currentId;
@@ -59,7 +78,7 @@ window.addEventListener('load', () => {
       if (data.writter === playerNum) {
         displayWordInput(data.id);
       } else {
-        //pollGame();
+        pollGameGuest(data.id);
       }
     });
 });
