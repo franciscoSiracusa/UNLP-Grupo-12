@@ -36,6 +36,10 @@ const displayCurrentWord = (currentword) => {
   document.getElementById('currentWord-container').textContent = currentword;
 };
 
+const displayStatus = (game) => {
+  console.log(game.status);
+};
+
 const displayLetterInput = (id) => {
   const form = document.getElementById('form');
   const input = document.createElement('input');
@@ -59,6 +63,9 @@ const displayLetterInput = (id) => {
       .then((data) => {
         e.target.reset();
         displayCurrentWord(data.currentWord);
+        if (data.status !== 'playing') {
+          displayStatus(data);
+        }
       });
   });
 
@@ -86,10 +93,12 @@ const pollgameWritter = (id) => {
     .then((res) => res.json())
     .then((data) => {
       displayCurrentWord(data.currentWord);
-      if (data.alive && data.word !== data.currentWord) {
+      if (data.status === 'playing' && data.word !== data.currentWord) {
         setTimeout(() => {
           pollgameWritter(id);
         }, 500);
+      } else {
+        displayStatus(data);
       }
     });
 };

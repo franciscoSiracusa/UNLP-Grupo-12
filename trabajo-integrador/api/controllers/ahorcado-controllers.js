@@ -47,7 +47,7 @@ const initializeGame = (req, res) => {
       currentWord: null,
       attempts: 0,
       letters: '',
-      alive: true,
+      status: 'playing',
     };
     games.push(currentGame);
   } else {
@@ -69,15 +69,20 @@ const setWord = (req, res) => {
 const attempt = (req, res) => {
   let currentGame = searchGame(req.query.id);
 
-  if (!currentGame.letters.includes(req.query.letter.toLowerCase())) {
+  if (
+    !currentGame.letters.includes(req.query.letter.toLowerCase()) &&
+    currentGame.status === 'playing'
+  ) {
     currentGame.letters += req.query.letter.toLowerCase();
 
     if (!checkWord(currentGame, req.query.letter.toLowerCase())) {
       currentGame.attempts++;
       if (currentGame.attempts === 6) {
-        currentGame.alive = false;
+        currentGame.status = 'dead';
       }
-      console.log(currentGame.attempts);
+    }
+    if (currentGame.word === currentGame.currentWord) {
+      currentGame.status = 'survived';
     }
   }
   res.send(currentGame);
