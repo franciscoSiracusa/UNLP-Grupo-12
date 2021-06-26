@@ -24,7 +24,7 @@ const createOptions = (id) => {
         .then((res) => res.json())
         .then((data) => {
           deleteOptions();
-          displayPlayerOption();
+          displayPlayerOption(data.players,playerNum);
           if (data.players[0].ready && data.players[1].ready) {
             displayFinalResult(data);
           } else {
@@ -40,16 +40,26 @@ const deleteOptions = () => {
   document.getElementById('options').innerHTML = '';
 };
 
-const displayPlayerOption = (player) => {};
+const displayPlayerOption = (player,playerNum) => {
+  console.log(`tu eleccion es ${player[playerNum].option}`);
+};
 
-const displayEnemyOption = (player) => {};
+const displayEnemyOption = (players) => {
+  console.log(`${players[0].option} vs ${players[1].option}`)
+};
 
 const displayPoints = () => {};
 
-const displayGameResult = () => {
-  /*  if (game.result === 0) {
+const displayGameResult = (game) => {
+  if (game.result === -1) {
+    console.log("empate")
   } else {
-  } */
+    if (game.result === 0) {
+      console.log(`el ganador es ${game.players[0].option}`)
+    } else {
+      console.log(`el ganador es ${game.players[1].option}`)
+    }
+  }
 };
 
 /* const toggleConnect = (id, num) => {
@@ -75,8 +85,8 @@ const displayRematch = (id) => {
 
 // imprime en pantalla el resultado de la partida
 const displayFinalResult = (game) => {
-  displayEnemyOption();
-  displayGameResult();
+  displayEnemyOption(game.players);
+  displayGameResult(game);
   displayPoints();
   displayRematch(game.id);
 };

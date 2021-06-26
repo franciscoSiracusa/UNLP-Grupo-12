@@ -1,4 +1,4 @@
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require("uuid");
 
 let games = [];
 
@@ -10,11 +10,49 @@ const arePlayersReady = (players) => {
 //         1 si gana player1
 //         -1 si hay empate
 const checkResult = (players) => {
-  const option1 = players[0].option;
-  const option2 = players[1].option;
-  return 1;
-  // if (todas las opciones)
-  // return
+  const option0 = players[0].option;
+  const option1 = players[1].option;
+  if (option0 === option1) {
+    return -1;
+  } else {
+  switch (option0) {
+    case "rock":
+      if (option1 === "lizard" || option1 === "scissors") { //caso que gana option0
+        return 0;
+      } else if ( option1 === "paper" || option1 === "spock") { //caso que pierde option0
+        return 1;
+      }
+      break;
+    case "paper":
+      if (option1 === "rock" || option1 === "spock") {
+        return 0;
+      } else if ( option1 === "scissors" || option1 === "lizard") {
+        return 1;
+      }
+      break;
+    case "scissors":
+      if (option1 === "paper" || option1 === "lizard") {
+        return 0;
+      } else if (option1 === "spock" || option1 === "rock") {
+        return 1;
+      }
+      break;
+    case "lizard":
+      if (option1 === "spock" || option1 === "paper") {
+        return 0;
+      } else if (option1 === "rock" || option1 === "scissors") {
+        return 1;
+      }
+      break;
+    case "spock":
+      if (option1 === "scissors" || option1 === "rock") {
+        return 0;
+      } else if (option1 === "paper" || option1 === "lizard") {
+        return 1;
+      }
+      break;
+  }
+  }
 };
 
 const searchGame = (id) => {
@@ -24,7 +62,7 @@ const searchGame = (id) => {
 const initializeGame = (req, res) => {
   let currentGame;
 
-  if (req.query.id === '-1') {
+  if (req.query.id === "-1") {
     //si no existe, se crea un nuevo juego
     currentGame = {
       players: [
