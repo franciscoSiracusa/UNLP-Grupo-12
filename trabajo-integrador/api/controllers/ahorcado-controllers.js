@@ -48,6 +48,7 @@ const initializeGame = (req, res) => {
       attempts: 0,
       letters: '',
       status: 'playing',
+      rematch: false,
     };
     games.push(currentGame);
   } else {
@@ -88,10 +89,28 @@ const attempt = (req, res) => {
   res.send(currentGame);
 };
 
+const reset = (req, res) => {
+  let currentGame = searchGame(req.query.id);
+
+  if (!currentGame.rematch) {
+    currentGame.rematch = true;
+  } else {
+    currentGame.players[req.query.player].ready = false;
+    currentGame.players[req.query.player].option = null;
+    if (!currentGame.players[0].ready && !currentGame.players[1].ready) {
+      //si ambos ya apretaron el boton de rematch
+      currentGame.result = null;
+    }
+  }
+  
+  res.sendStatus(200);
+};
+
 module.exports = {
   initializeGame,
   setWord,
   attempt,
+  reset,
 };
 
 // salamin con queso

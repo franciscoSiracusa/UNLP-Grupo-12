@@ -1,9 +1,19 @@
+let playerNum;
+
 const copy = () => {
   let copyText = document.querySelector('#link input');
   copyText.select();
   copyText.setSelectionRange(0, 99999);
   document.execCommand('copy');
 };
+
+const initializeGame = (data) =>{
+  if (data.writter === playerNum) {
+    displayWordInput(data.id);
+  } else {
+    pollGameGuest(data.id);
+  }
+}
 
 const displayWordInput = (id) => {
   const form = document.getElementById('form');
@@ -36,8 +46,22 @@ const displayCurrentWord = (currentword) => {
   document.getElementById('currentWord-container').textContent = currentword;
 };
 
+const displayRematch = (id) => {
+  const btn = document.createElement('button');
+  btn.textContent = 'Rematch';
+  document.getElementById('rematch').appendChild(btn);
+  btn.addEventListener('click', () => {
+    document.getElementById('rematch').innerHTML = '';
+    fetch(`/pptls/reset?id=${id}`, {
+      method: 'PATCH',
+    }).then((res) => res.json())
+    .then((data) => {})
+  });
+};
+
 const displayStatus = (game) => {
   console.log(game.status);
+  displayRematch(game.id);
 };
 
 const displayLetterInput = (id) => {
@@ -65,6 +89,7 @@ const displayLetterInput = (id) => {
         displayCurrentWord(data.currentWord);
         if (data.status !== 'playing') {
           displayStatus(data);
+          //removeLetterInput();
         }
       });
   });
@@ -103,6 +128,7 @@ const pollgameWritter = (id) => {
     });
 };
 
+
 window.addEventListener('load', () => {
   let currentId;
 
@@ -126,10 +152,6 @@ window.addEventListener('load', () => {
         link.classList.add('link');
       }
 
-      if (data.writter === playerNum) {
-        displayWordInput(data.id);
-      } else {
-        pollGameGuest(data.id);
-      }
+      initializeGame(data);
     });
 });

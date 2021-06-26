@@ -12,4 +12,6 @@ router.patch('/ahorcado/setWord', ahorcadoControllers.setWord);
 
 router.patch('/ahorcado/attempt', ahorcadoControllers.attempt);
 
+router.patch('/ahorcado/reset', ahorcadoControllers.reset);
+
 module.exports = router;
