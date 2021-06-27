@@ -43,7 +43,7 @@ const displayWordInput = (id) => {
 };
 
 const displayCurrentWord = (currentword) => {
-  document.getElementById('currentWord-container').textContent = currentword;
+  document.getElementById('currentWord').textContent = currentword;
 };
 
 const displayRematch = (id) => {
