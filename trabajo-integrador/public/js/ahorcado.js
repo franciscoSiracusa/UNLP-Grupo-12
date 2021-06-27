@@ -51,11 +51,13 @@ const displayRematch = (id) => {
   btn.textContent = 'Rematch';
   document.getElementById('rematch').appendChild(btn);
   btn.addEventListener('click', () => {
-    document.getElementById('rematch').innerHTML = '';
-    fetch(`/pptls/reset?id=${id}`, {
+    fetch(`/ahorcado/reset?id=${id}`, {
       method: 'PATCH',
     }).then((res) => res.json())
-    .then((data) => {})
+    .then((data) => {
+      document.getElementById('rematch').innerHTML = '';
+      initializeGame(data);
+    })
   });
 };
 
