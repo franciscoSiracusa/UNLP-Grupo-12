@@ -91,7 +91,7 @@ const attempt = (req, res) => {
 const reset = (req, res) => {
   let currentGame = searchGame(req.query.id);
 
-  if (currentGame.status !== "playing") {
+  if (currentGame.status !== 'playing') {
     currentGame.writter = currentGame.writter === 0 ? 1 : 0;
     currentGame.word = null;
     currentGame.currentWord = null;
@@ -99,7 +99,7 @@ const reset = (req, res) => {
     currentGame.letters = '';
     currentGame.status = 'playing';
   }
-  
+
   res.send(currentGame);
 };
 

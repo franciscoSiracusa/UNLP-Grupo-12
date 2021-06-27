@@ -7,16 +7,19 @@ const copy = () => {
   document.execCommand('copy');
 };
 
-const initializeGame = (data) =>{
+const initializeGame = (data) => {
   if (data.writter === playerNum) {
     displayWordInput(data.id);
   } else {
     pollGameGuest(data.id);
   }
-}
+};
 
 const displayWordInput = (id) => {
-  const form = document.getElementById('form');
+  const form = document.createElement('form');
+  form.id = 'form';
+  form.classList.add('form');
+  document.getElementById('form-container').appendChild(form);
   const input = document.createElement('input');
   const submit = document.createElement('input');
 
@@ -33,7 +36,7 @@ const displayWordInput = (id) => {
       .then((res) => res.json())
       .then((data) => {
         e.target.reset();
-        //removeWordInput
+        document.getElementById('form-container').removeChild(form);
         pollgameWritter(data.id);
       });
   });
@@ -53,11 +56,12 @@ const displayRematch = (id) => {
   btn.addEventListener('click', () => {
     fetch(`/ahorcado/reset?id=${id}`, {
       method: 'PATCH',
-    }).then((res) => res.json())
-    .then((data) => {
-      document.getElementById('rematch').innerHTML = '';
-      initializeGame(data);
     })
+      .then((res) => res.json())
+      .then((data) => {
+        document.getElementById('rematch').innerHTML = '';
+        initializeGame(data);
+      });
   });
 };
 
@@ -67,7 +71,10 @@ const displayStatus = (game) => {
 };
 
 const displayLetterInput = (id) => {
-  const form = document.getElementById('form');
+  const form = document.createElement('form');
+  form.id = 'form';
+  form.classList.add('form');
+  document.getElementById('form-container').appendChild(form);
   const input = document.createElement('input');
   const submit = document.createElement('input');
 
@@ -91,7 +98,7 @@ const displayLetterInput = (id) => {
         displayCurrentWord(data.currentWord);
         if (data.status !== 'playing') {
           displayStatus(data);
-          //removeLetterInput();
+          document.getElementById('form-container').removeChild(form);
         }
       });
   });
@@ -129,7 +136,6 @@ const pollgameWritter = (id) => {
       }
     });
 };
-
 
 window.addEventListener('load', () => {
   let currentId;
