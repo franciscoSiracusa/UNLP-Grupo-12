@@ -7,6 +7,14 @@ const copy = () => {
   document.execCommand('copy');
 };
 
+const arePlayersReady = (players) => {
+  return (
+    players[0].ready &&
+    players[1].ready &&
+    players[0].round === players[1].round
+  );
+};
+
 const displayConnect = () => {};
 
 const createOptions = (id) => {
@@ -24,8 +32,8 @@ const createOptions = (id) => {
         .then((res) => res.json())
         .then((data) => {
           deleteOptions();
-          displayPlayerOption(data.players,playerNum);
-          if (data.players[0].ready && data.players[1].ready) {
+          displayPlayerOption(data.players, playerNum);
+          if (arePlayersReady(data.players)) {
             displayFinalResult(data);
           } else {
             // checkea el estado del juego hasta que ambos esten ready
@@ -40,26 +48,27 @@ const deleteOptions = () => {
   document.getElementById('options').innerHTML = '';
 };
 
-const displayPlayerOption = (player,playerNum) => {
+const displayPlayerOption = (player, playerNum) => {
   console.log(`tu eleccion es ${player[playerNum].option}`);
 };
 
 const displayEnemyOption = (players) => {
-  console.log(`${players[0].option} vs ${players[1].option}`)
+  console.log(`${players[0].option} vs ${players[1].option}`);
 };
 
 const displayPoints = () => {};
 
 const displayGameResult = (game) => {
   if (game.result === -1) {
-    console.log("empate")
+    console.log('empate');
   } else {
     if (game.result === 0) {
-      console.log(`el ganador es ${game.players[0].option}`)
+      console.log(`el ganador es ${game.players[0].option}`);
     } else {
-      console.log(`el ganador es ${game.players[1].option}`)
+      console.log(`el ganador es ${game.players[1].option}`);
     }
   }
+  console.log('----------');
 };
 
 /* const toggleConnect = (id, num) => {
@@ -95,7 +104,7 @@ const pollGame = (id) => {
   fetch(`/pptls/start?id=${id}`)
     .then((res) => res.json())
     .then((data) => {
-      if (data.players[0].ready && data.players[1].ready) {
+      if (arePlayersReady(data.players)) {
         displayFinalResult(data);
       } else {
         setTimeout(() => {

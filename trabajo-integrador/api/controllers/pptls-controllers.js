@@ -1,9 +1,13 @@
-const { v4: uuidv4 } = require("uuid");
+const { v4: uuidv4 } = require('uuid');
 
 let games = [];
 
 const arePlayersReady = (players) => {
-  return players[0].ready && players[1].ready;
+  return (
+    players[0].ready &&
+    players[1].ready &&
+    players[0].round === players[1].round
+  );
 };
 
 // retorna 0 si gana player0
@@ -15,43 +19,45 @@ const checkResult = (players) => {
   if (option0 === option1) {
     return -1;
   } else {
-  switch (option0) {
-    case "rock":
-      if (option1 === "lizard" || option1 === "scissors") { //caso que gana option0
-        return 0;
-      } else if ( option1 === "paper" || option1 === "spock") { //caso que pierde option0
-        return 1;
-      }
-      break;
-    case "paper":
-      if (option1 === "rock" || option1 === "spock") {
-        return 0;
-      } else if ( option1 === "scissors" || option1 === "lizard") {
-        return 1;
-      }
-      break;
-    case "scissors":
-      if (option1 === "paper" || option1 === "lizard") {
-        return 0;
-      } else if (option1 === "spock" || option1 === "rock") {
-        return 1;
-      }
-      break;
-    case "lizard":
-      if (option1 === "spock" || option1 === "paper") {
-        return 0;
-      } else if (option1 === "rock" || option1 === "scissors") {
-        return 1;
-      }
-      break;
-    case "spock":
-      if (option1 === "scissors" || option1 === "rock") {
-        return 0;
-      } else if (option1 === "paper" || option1 === "lizard") {
-        return 1;
-      }
-      break;
-  }
+    switch (option0) {
+      case 'rock':
+        if (option1 === 'lizard' || option1 === 'scissors') {
+          //caso que gana option0
+          return 0;
+        } else if (option1 === 'paper' || option1 === 'spock') {
+          //caso que pierde option0
+          return 1;
+        }
+        break;
+      case 'paper':
+        if (option1 === 'rock' || option1 === 'spock') {
+          return 0;
+        } else if (option1 === 'scissors' || option1 === 'lizard') {
+          return 1;
+        }
+        break;
+      case 'scissors':
+        if (option1 === 'paper' || option1 === 'lizard') {
+          return 0;
+        } else if (option1 === 'spock' || option1 === 'rock') {
+          return 1;
+        }
+        break;
+      case 'lizard':
+        if (option1 === 'spock' || option1 === 'paper') {
+          return 0;
+        } else if (option1 === 'rock' || option1 === 'scissors') {
+          return 1;
+        }
+        break;
+      case 'spock':
+        if (option1 === 'scissors' || option1 === 'rock') {
+          return 0;
+        } else if (option1 === 'paper' || option1 === 'lizard') {
+          return 1;
+        }
+        break;
+    }
   }
 };
 
@@ -62,7 +68,7 @@ const searchGame = (id) => {
 const initializeGame = (req, res) => {
   let currentGame;
 
-  if (req.query.id === "-1") {
+  if (req.query.id === '-1') {
     //si no existe, se crea un nuevo juego
     currentGame = {
       players: [
@@ -70,12 +76,14 @@ const initializeGame = (req, res) => {
           points: 0,
           ready: false,
           option: null,
+          round: 1,
           /* connected: false, */
         },
         {
           points: 0,
           ready: false,
           option: null,
+          round: 1,
           /* connected: false, */
         },
       ],
@@ -113,10 +121,8 @@ const reset = (req, res) => {
 
   currentGame.players[req.query.player].ready = false;
   currentGame.players[req.query.player].option = null;
-  if (!currentGame.players[0].ready && !currentGame.players[1].ready) {
-    //si ambos ya apretaron el boton de rematch
-    currentGame.result = null;
-  }
+  currentGame.players[req.query.player].round++;
+
   res.sendStatus(200);
 };
 
