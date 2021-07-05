@@ -96,3 +96,19 @@ body {
 .clicked {
   transform: scale(0);
 }
+
+/* PERDON TOMY SE TE FUE LA INTERNET D: */
+/* fran me obligó */
+.your-points {
+  position: absolute;
+  left: 2rem;
+  top: 12rem;
+  font-size: 2rem;
+}
+
+.enemy-points {
+  position: absolute;
+  right: 2rem;
+  top: 12rem;
+  font-size: 2rem;
+}

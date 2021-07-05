@@ -75,7 +75,20 @@ const displayEnemyOption = (players) => {
   document.getElementById('options').appendChild(option);
 };
 
-const displayPoints = () => {};
+const displayPoints = (players) => {
+  const enemyPointsContainer = document.getElementById('enemy-points');
+  enemyPointsContainer.textContent = '';
+  const yourPointsContainer = document.getElementById('your-points');
+  yourPointsContainer.textContent = '';
+
+  const enemyNum = playerNum === 0 ? 1 : 0;
+  const yourPoints = document.createElement('p');
+  yourPoints.textContent = players[playerNum].points;
+  yourPointsContainer.appendChild(yourPoints);
+  const enemyPoins = document.createElement('p');
+  enemyPoins.textContent = players[enemyNum].points;
+  enemyPointsContainer.appendChild(enemyPoins);
+};
 
 const displayGameResult = (game) => {
   const result = document.createElement('p');
@@ -116,7 +129,7 @@ const displayRematch = (id) => {
 const displayFinalResult = (game) => {
   displayEnemyOption(game.players);
   displayGameResult(game);
-  displayPoints();
+  displayPoints(game.players);
   displayRematch(game.id);
 };
 
