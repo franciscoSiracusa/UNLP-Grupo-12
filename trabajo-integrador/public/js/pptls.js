@@ -19,10 +19,11 @@ const displayConnect = () => {};
 
 const createOptions = (id) => {
   document.getElementById('options').innerHTML =
-    '<div class="option" data-option="rock">rock</div> <div class="option" data-option="paper">paper</div>  <div class="option" data-option="scissors">scissors</div>  <div class="option" data-option="lizard">lizard</div>  <div class="option" data-option="spock">spock</div>';
+    '<div class="option hover" data-option="rock"><img src="../icons/rock.svg" alt="rock"></div> <div class="option hover" data-option="paper"><img src="../icons/paper.svg" alt="paper"></div>  <div class="option hover" data-option="scissors"><img src="../icons/scissors.svg" alt="scissors"></div>  <div class="option hover" data-option="lizard"><img src="../icons/lizard.svg" alt="lizard"></div>  <div class="option hover" data-option="spock"><img src="../icons/spock.svg"></div>';
 
   document.querySelectorAll('.option').forEach((option) => {
     option.addEventListener('click', (e) => {
+      console.log(e.target.dataset.option);
       fetch(
         `/pptls?option=${e.target.dataset.option}&id=${id}&player=${playerNum}`,
         {
@@ -31,8 +32,15 @@ const createOptions = (id) => {
       )
         .then((res) => res.json())
         .then((data) => {
-          deleteOptions();
-          displayPlayerOption(data.players, playerNum);
+          document.querySelectorAll('.option').forEach(option => {
+            option.classList.remove('hover');
+            option.classList.add('clicked');
+          })
+          setTimeout(() => {
+            deleteOptions();
+          }, 200)
+          console.log(data.players);
+          displayPlayerOption(data.players);
           if (arePlayersReady(data.players)) {
             displayFinalResult(data);
           } else {
@@ -48,8 +56,12 @@ const deleteOptions = () => {
   document.getElementById('options').innerHTML = '';
 };
 
-const displayPlayerOption = (player, playerNum) => {
-  console.log(`tu eleccion es ${player[playerNum].option}`);
+const displayPlayerOption = (players) => {
+  console.log(players[playerNum].option);
+  let option = document.createElement('div');
+  option.classList.add('option');
+  option.innerHTML = `<img src="../icons/${players[playerNum].option}.svg" alt="${players[playerNum].option}">`;
+  document.getElementById('options').appendChild(option);
 };
 
 const displayEnemyOption = (players) => {
