@@ -23,7 +23,6 @@ const createOptions = (id) => {
 
   document.querySelectorAll('.option').forEach((option) => {
     option.addEventListener('click', (e) => {
-      console.log(e.target.parentNode.dataset.option);
       fetch(
         `/pptls?option=${e.target.parentNode.dataset.option}&id=${id}&player=${playerNum}`,
         {
@@ -36,15 +35,16 @@ const createOptions = (id) => {
             option.classList.remove('hover');
             option.classList.add('clicked');
           });
-
-          deleteOptions();
-          displayPlayerOption(data.players);
-          if (arePlayersReady(data.players)) {
-            displayFinalResult(data);
-          } else {
-            // checkea el estado del juego hasta que ambos esten ready
-            pollGame(data.id);
-          }
+          setTimeout(() => {
+            deleteOptions();
+            displayPlayerOption(data.players);
+            if (arePlayersReady(data.players)) {
+              displayFinalResult(data);
+            } else {
+              // checkea el estado del juego hasta que ambos esten ready
+              pollGame(data.id);
+            }
+          }, 200);
         });
     });
   });
