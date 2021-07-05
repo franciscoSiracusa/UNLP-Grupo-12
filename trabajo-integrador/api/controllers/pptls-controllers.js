@@ -101,7 +101,7 @@ const initializeGame = (req, res) => {
 const updateGame = (req, res) => {
   let currentGame = searchGame(req.query.id);
 
-  console.log(req.query.option)
+  console.log(req.query);
 
   currentGame.players[req.query.player].option = req.query.option;
   currentGame.players[req.query.player].ready = true;

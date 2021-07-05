@@ -23,23 +23,21 @@ const createOptions = (id) => {
 
   document.querySelectorAll('.option').forEach((option) => {
     option.addEventListener('click', (e) => {
-      console.log(e.target.dataset.option);
+      console.log(e.target.parentNode.dataset.option);
       fetch(
-        `/pptls?option=${e.target.dataset.option}&id=${id}&player=${playerNum}`,
+        `/pptls?option=${e.target.parentNode.dataset.option}&id=${id}&player=${playerNum}`,
         {
           method: 'PATCH',
         }
       )
         .then((res) => res.json())
         .then((data) => {
-          document.querySelectorAll('.option').forEach(option => {
+          document.querySelectorAll('.option').forEach((option) => {
             option.classList.remove('hover');
             option.classList.add('clicked');
-          })
-          setTimeout(() => {
-            deleteOptions();
-          }, 200)
-          console.log(data.players);
+          });
+
+          deleteOptions();
           displayPlayerOption(data.players);
           if (arePlayersReady(data.players)) {
             displayFinalResult(data);
@@ -57,30 +55,40 @@ const deleteOptions = () => {
 };
 
 const displayPlayerOption = (players) => {
-  console.log(players[playerNum].option);
   let option = document.createElement('div');
   option.classList.add('option');
-  option.innerHTML = `<img src="../icons/${players[playerNum].option}.svg" alt="${players[playerNum].option}">`;
+  let img = document.createElement('img');
+  img.src = '../icons/' + players[playerNum].option + '.svg';
+  img.alt = players[playerNum].option;
+  option.appendChild(img);
   document.getElementById('options').appendChild(option);
 };
 
 const displayEnemyOption = (players) => {
-  console.log(`${players[0].option} vs ${players[1].option}`);
+  let option = document.createElement('div');
+  option.classList.add('option');
+  let img = document.createElement('img');
+  const enemyNum = playerNum === 0 ? 1 : 0;
+  img.src = '../icons/' + players[enemyNum].option + '.svg';
+  img.alt = players[enemyNum].option;
+  option.appendChild(img);
+  document.getElementById('options').appendChild(option);
 };
 
 const displayPoints = () => {};
 
 const displayGameResult = (game) => {
+  const result = document.createElement('p');
   if (game.result === -1) {
-    console.log('empate');
+    result.textContent = 'Empate';
   } else {
     if (game.result === 0) {
-      console.log(`el ganador es ${game.players[0].option}`);
+      result.textContent = `el ganador es ${game.players[0].option}`;
     } else {
-      console.log(`el ganador es ${game.players[1].option}`);
+      result.textContent = `el ganador es ${game.players[1].option}`;
     }
   }
-  console.log('----------');
+  document.getElementById('options').appendChild(result);
 };
 
 /* const toggleConnect = (id, num) => {
@@ -155,6 +163,6 @@ window.addEventListener('load', () => {
         toggleConnect(data.id, playerNum);
       }); */
 
-      createOptions(data.id, playerNum);
+      createOptions(data.id);
     });
 });
