@@ -32,12 +32,14 @@ const createOptions = (id) => {
         .then((res) => res.json())
         .then((data) => {
           document.querySelectorAll('.option').forEach((option) => {
+            if (option.dataset.option !== data.players[playerNum].option) {
+              option.classList.add('clicked');
+            }
+            
             option.classList.remove('hover');
-            option.classList.add('clicked');
           });
           setTimeout(() => {
-            deleteOptions();
-            displayPlayerOption(data.players);
+            deleteNotClickedOptions(data.players);
             if (arePlayersReady(data.players)) {
               displayFinalResult(data);
             } else {
@@ -50,6 +52,18 @@ const createOptions = (id) => {
   });
 };
 
+const deleteNotClickedOptions = players => {
+  let options = document.querySelector('.options');
+
+  document.querySelectorAll('.option').forEach(option => {
+    if (option.dataset.option !== players[playerNum].option) {
+      options.removeChild(option);
+    }
+  })
+
+}
+
+/*
 const deleteOptions = () => {
   document.getElementById('options').innerHTML = '';
 };
@@ -63,6 +77,7 @@ const displayPlayerOption = (players) => {
   option.appendChild(img);
   document.getElementById('options').appendChild(option);
 };
+*/
 
 const displayEnemyOption = (players) => {
   let option = document.createElement('div');
