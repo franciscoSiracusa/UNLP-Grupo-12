@@ -161,7 +161,7 @@ window.addEventListener('load', () => {
 
         link.appendChild(input);
         link.appendChild(btn);
-        
+
         link.classList.add('link');
       }
 
