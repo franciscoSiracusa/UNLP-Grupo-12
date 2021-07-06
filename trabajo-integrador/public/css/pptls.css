@@ -17,6 +17,7 @@ body {
   font-size: 6rem;
   text-align: center;
   text-shadow: 1px 1px 5px #6e99c4;
+  margin-bottom: 2rem;
 }
 
 .link {
@@ -80,7 +81,7 @@ body {
   width: 7rem;
   height: 7rem;
   margin: 0.5rem;
-  transition: transform 0.2s;
+  transition: transform 0.4s, opacity 0.2s;
 }
 
 .hover:hover {
@@ -94,9 +95,23 @@ body {
 }
 
 .clicked {
-  transform: scale(0);
+  transform: translateY(200px);
+  opacity: 0;
 }
 
+.hidden {
+  opacity: 0;
+  transform: translateX(-200px);
+}
+
+.hidden-enemy {
+  opacity: 0;
+  transform: translateX(200px);
+}
+
+.wait-message, .result-message {
+  text-align: center;
+}
 
 /* PERDON TOMY SE TE FUE LA INTERNET D: */
 /* fran me obligó */
@@ -112,4 +127,20 @@ body {
   right: 2rem;
   top: 12rem;
   font-size: 2rem;
+}
+
+.rematch {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.btn {
+  color: #ccc;
+  background: #3b5169;
+  border: none;
+  border-radius: 4px;
+  padding: 1rem 2rem;
+  cursor: pointer;
 }

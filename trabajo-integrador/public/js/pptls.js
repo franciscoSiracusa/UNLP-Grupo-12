@@ -2,6 +2,7 @@ let playerNum;
 
 const copy = () => {
   let copyText = document.querySelector('#link input');
+  copyText.focus();
   copyText.select();
   copyText.setSelectionRange(0, 99999);
   document.execCommand('copy');
@@ -19,7 +20,7 @@ const displayConnect = () => {};
 
 const createOptions = (id) => {
   document.getElementById('options').innerHTML =
-    '<div class="option hover" data-option="rock"><img src="../icons/rock.svg" alt="rock"></div> <div class="option hover" data-option="paper"><img src="../icons/paper.svg" alt="paper"></div>  <div class="option hover" data-option="scissors"><img src="../icons/scissors.svg" alt="scissors"></div>  <div class="option hover" data-option="lizard"><img src="../icons/lizard.svg" alt="lizard"></div>  <div class="option hover" data-option="spock"><img src="../icons/spock.svg"></div>';
+    '<div class="option hover hidden-top" data-option="rock"><img src="../icons/rock.svg" alt="rock"></div> <div class="option hover" data-option="paper"><img src="../icons/paper.svg" alt="paper"></div>  <div class="option hover" data-option="scissors"><img src="../icons/scissors.svg" alt="scissors"></div>  <div class="option hover" data-option="lizard"><img src="../icons/lizard.svg" alt="lizard"></div>  <div class="option hover" data-option="spock"><img src="../icons/spock.svg"></div>'; 
 
   document.querySelectorAll('.option').forEach((option) => {
     option.addEventListener('click', (e) => {
@@ -32,38 +33,24 @@ const createOptions = (id) => {
         .then((res) => res.json())
         .then((data) => {
           document.querySelectorAll('.option').forEach((option) => {
-            if (option.dataset.option !== data.players[playerNum].option) {
-              option.classList.add('clicked');
-            }
-            
+            option.classList.add('clicked');
             option.classList.remove('hover');
           });
           setTimeout(() => {
-            deleteNotClickedOptions(data.players);
+            deleteOptions();
+            displayPlayerOption(data.players);
             if (arePlayersReady(data.players)) {
               displayFinalResult(data);
             } else {
               // checkea el estado del juego hasta que ambos esten ready
               pollGame(data.id);
             }
-          }, 200);
+          }, 400);
         });
     });
   });
 };
 
-const deleteNotClickedOptions = players => {
-  let options = document.querySelector('.options');
-
-  document.querySelectorAll('.option').forEach(option => {
-    if (option.dataset.option !== players[playerNum].option) {
-      options.removeChild(option);
-    }
-  })
-
-}
-
-/*
 const deleteOptions = () => {
   document.getElementById('options').innerHTML = '';
 };
@@ -71,23 +58,30 @@ const deleteOptions = () => {
 const displayPlayerOption = (players) => {
   let option = document.createElement('div');
   option.classList.add('option');
+  option.classList.add('hidden');
   let img = document.createElement('img');
   img.src = '../icons/' + players[playerNum].option + '.svg';
   img.alt = players[playerNum].option;
   option.appendChild(img);
   document.getElementById('options').appendChild(option);
+  setTimeout(() => {
+    option.classList.remove('hidden');
+  }, 50);
 };
-*/
 
 const displayEnemyOption = (players) => {
   let option = document.createElement('div');
   option.classList.add('option');
+  option.classList.add('hidden-enemy');
   let img = document.createElement('img');
   const enemyNum = playerNum === 0 ? 1 : 0;
   img.src = '../icons/' + players[enemyNum].option + '.svg';
   img.alt = players[enemyNum].option;
   option.appendChild(img);
   document.getElementById('options').appendChild(option);
+  setTimeout(() => {
+    option.classList.remove('hidden-enemy');
+  }, 50);
 };
 
 const displayPoints = (players) => {
@@ -111,12 +105,12 @@ const displayGameResult = (game) => {
     result.textContent = 'Empate';
   } else {
     if (game.result === 0) {
-      result.textContent = `el ganador es ${game.players[0].option}`;
+      result.textContent = `El ganador es ${game.players[0].option}`;
     } else {
-      result.textContent = `el ganador es ${game.players[1].option}`;
+      result.textContent = `El ganador es ${game.players[1].option}`;
     }
   }
-  document.getElementById('options').appendChild(result);
+  document.querySelector('.result-message').appendChild(result);
 };
 
 /* const toggleConnect = (id, num) => {
@@ -129,9 +123,12 @@ const disconectPlayer = () => {};
 
 const displayRematch = (id) => {
   const btn = document.createElement('button');
-  btn.textContent = 'Rematch';
+  btn.textContent = 'Jugar otra vez';
+  btn.classList.add('btn');
   document.getElementById('rematch').appendChild(btn);
   btn.addEventListener('click', () => {
+    // vaciar el resultado
+    document.querySelector('.result-message').innerHTML = '';
     document.getElementById('rematch').innerHTML = '';
     createOptions(id);
     fetch(`/pptls/reset?id=${id}&player=${playerNum}`, {
@@ -148,13 +145,18 @@ const displayFinalResult = (game) => {
   displayRematch(game.id);
 };
 
+
 const pollGame = (id) => {
   fetch(`/pptls/start?id=${id}`)
     .then((res) => res.json())
     .then((data) => {
       if (arePlayersReady(data.players)) {
+        // sacar mensaje de espera al oponente
+        document.querySelector('.wait-message').innerHTML = '';
         displayFinalResult(data);
       } else {
+        // imprimir mensaje para esperar al oponente
+        document.querySelector('.wait-message').innerHTML = 'Tu oponente esta pensando ...';
         setTimeout(() => {
           pollGame(id);
         }, 500);
@@ -178,10 +180,15 @@ window.addEventListener('load', () => {
     .then((data) => {
       if (currentId === '-1') {
         let link = document.querySelector('#link');
-        link.innerHTML = `<input type="text" value="${
-          window.location.href + '?id=' + data.id
-        }" disabled>
-    <button onclick="copy()">Copiar</button>`;
+        let input = document.createElement('input');
+        input.value = window.location.href + '?id=' + data.id;
+        let btn = document.createElement('button');
+        btn.textContent = 'Copiar';
+        btn.addEventListener('click', copy);
+
+        link.appendChild(input);
+        link.appendChild(btn);
+        
         link.classList.add('link');
       }
 
