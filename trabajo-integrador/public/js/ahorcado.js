@@ -26,6 +26,8 @@ const displayWordInput = (id) => {
   input.id = 'word';
   input.name = 'word';
   input.placeholder = 'Insertar Palabra';
+  input.pattern = '^[a-zA-Z ]*$';
+  input.required = true;
 
   submit.type = 'submit';
   form.addEventListener('submit', (e) => {
@@ -70,6 +72,11 @@ const displayStatus = (game) => {
   displayRematch(game.id);
 };
 
+const displayLetters = (letters) => {
+  const container = document.getElementById('letters');
+  container.textContent = 'Letras usadas: ' + letters;
+};
+
 const displayLetterInput = (id) => {
   const form = document.createElement('form');
   form.id = 'form';
@@ -82,6 +89,8 @@ const displayLetterInput = (id) => {
   input.name = 'letter';
   input.maxLength = 1;
   input.placeholder = 'Insertar Letra';
+  input.pattern = '^[a-zA-Z]*$';
+  input.required = true;
 
   submit.type = 'submit';
   form.addEventListener('submit', (e) => {
@@ -96,6 +105,7 @@ const displayLetterInput = (id) => {
       .then((data) => {
         e.target.reset();
         displayCurrentWord(data.currentWord);
+        displayLetters(data.letters);
         if (data.status !== 'playing') {
           displayStatus(data);
           document.getElementById('form-container').removeChild(form);
@@ -127,6 +137,7 @@ const pollgameWritter = (id) => {
     .then((res) => res.json())
     .then((data) => {
       displayCurrentWord(data.currentWord);
+      displayLetters(data.letters);
       if (data.status === 'playing' && data.word !== data.currentWord) {
         setTimeout(() => {
           pollgameWritter(id);

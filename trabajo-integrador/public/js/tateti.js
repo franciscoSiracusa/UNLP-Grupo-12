@@ -1,11 +1,11 @@
 let currentTurn;
 
 const copy = () => {
-  let copyText = document.querySelector("#link input");
+  let copyText = document.querySelector('#link input');
   copyText.select();
   copyText.setSelectionRange(0, 99999);
-  document.execCommand("copy");
-}
+  document.execCommand('copy');
+};
 
 const displayBoard = (board) => {
   document.querySelectorAll('.square').forEach((squere, index) => {
@@ -111,7 +111,7 @@ window.addEventListener('load', () => {
 
         link.appendChild(input);
         link.appendChild(btn);
-        
+
         link.classList.add('link');
       }
       currentTurn = data.turn;
