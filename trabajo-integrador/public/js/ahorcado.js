@@ -26,7 +26,7 @@ const displayWordInput = (id) => {
   input.id = 'word';
   input.name = 'word';
   input.placeholder = 'Insertar Palabra';
-  input.pattern = '^[a-zA-Z ]*$';
+  input.pattern = '^[a-zA-Z ñÑ]*$';
   input.required = true;
 
   submit.type = 'submit';
@@ -77,6 +77,16 @@ const displayLetters = (letters) => {
   container.textContent = 'Letras usadas: ' + letters;
 };
 
+const displayAttempts = (attempts) => {
+  document.getElementById('attemps').textContent = 'Fallas: ' + attempts;
+};
+
+const displayUpdatedGame = (data) => {
+  displayCurrentWord(data.currentWord);
+  displayLetters(data.letters);
+  displayAttempts(data.attempts);
+};
+
 const displayLetterInput = (id) => {
   const form = document.createElement('form');
   form.id = 'form';
@@ -89,7 +99,7 @@ const displayLetterInput = (id) => {
   input.name = 'letter';
   input.maxLength = 1;
   input.placeholder = 'Insertar Letra';
-  input.pattern = '^[a-zA-Z]*$';
+  input.pattern = '^[a-zA-ZñÑ]*$';
   input.required = true;
 
   submit.type = 'submit';
@@ -104,8 +114,7 @@ const displayLetterInput = (id) => {
       .then((res) => res.json())
       .then((data) => {
         e.target.reset();
-        displayCurrentWord(data.currentWord);
-        displayLetters(data.letters);
+        displayUpdatedGame(data);
         if (data.status !== 'playing') {
           displayStatus(data);
           document.getElementById('form-container').removeChild(form);
@@ -136,8 +145,7 @@ const pollgameWritter = (id) => {
   fetch(`/ahorcado/start?id=${id}`)
     .then((res) => res.json())
     .then((data) => {
-      displayCurrentWord(data.currentWord);
-      displayLetters(data.letters);
+      displayUpdatedGame(data);
       if (data.status === 'playing' && data.word !== data.currentWord) {
         setTimeout(() => {
           pollgameWritter(id);
