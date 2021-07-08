@@ -109,12 +109,11 @@ body {
   transform: translateX(200px);
 }
 
-.wait-message, .result-message {
+.wait-message,
+.result-message {
   text-align: center;
 }
 
-/* PERDON TOMY SE TE FUE LA INTERNET D: */
-/* fran me obligó */
 .your-points {
   position: absolute;
   left: 2rem;
@@ -143,4 +142,8 @@ body {
   border-radius: 4px;
   padding: 1rem 2rem;
   cursor: pointer;
+}
+
+.btn:hover {
+  background: #33475c;
 }

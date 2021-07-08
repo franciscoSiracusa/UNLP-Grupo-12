@@ -70,7 +70,7 @@ const pollGame = (id, winner, draw, boardTurn, playerTurn) => {
           currentTurn = data.turn;
           setTimeout(() => {
             pollGame(id, data.winner, data.draw, data.turn, playerTurn);
-          }, 1000);
+          }, 500);
         });
     } else {
       deleteInvalidTurn();

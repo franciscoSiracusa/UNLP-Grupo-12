@@ -20,7 +20,7 @@ const displayConnect = () => {};
 
 const createOptions = (id) => {
   document.getElementById('options').innerHTML =
-    '<div class="option hover hidden-top" data-option="rock"><img src="../icons/rock.svg" alt="rock"></div> <div class="option hover" data-option="paper"><img src="../icons/paper.svg" alt="paper"></div>  <div class="option hover" data-option="scissors"><img src="../icons/scissors.svg" alt="scissors"></div>  <div class="option hover" data-option="lizard"><img src="../icons/lizard.svg" alt="lizard"></div>  <div class="option hover" data-option="spock"><img src="../icons/spock.svg"></div>'; 
+    '<div class="option hover hidden-top" data-option="rock"><img src="../icons/rock.svg" alt="rock"></div> <div class="option hover" data-option="paper"><img src="../icons/paper.svg" alt="paper"></div>  <div class="option hover" data-option="scissors"><img src="../icons/scissors.svg" alt="scissors"></div>  <div class="option hover" data-option="lizard"><img src="../icons/lizard.svg" alt="lizard"></div>  <div class="option hover" data-option="spock"><img src="../icons/spock.svg"></div>';
 
   document.querySelectorAll('.option').forEach((option) => {
     option.addEventListener('click', (e) => {
@@ -45,7 +45,7 @@ const createOptions = (id) => {
               // checkea el estado del juego hasta que ambos esten ready
               pollGame(data.id);
             }
-          }, 400);
+          }, 500);
         });
     });
   });
@@ -145,7 +145,6 @@ const displayFinalResult = (game) => {
   displayRematch(game.id);
 };
 
-
 const pollGame = (id) => {
   fetch(`/pptls/start?id=${id}`)
     .then((res) => res.json())
@@ -156,7 +155,8 @@ const pollGame = (id) => {
         displayFinalResult(data);
       } else {
         // imprimir mensaje para esperar al oponente
-        document.querySelector('.wait-message').innerHTML = 'Tu oponente esta pensando ...';
+        document.querySelector('.wait-message').innerHTML =
+          'Tu oponente esta pensando ...';
         setTimeout(() => {
           pollGame(id);
         }, 500);
@@ -188,7 +188,7 @@ window.addEventListener('load', () => {
 
         link.appendChild(input);
         link.appendChild(btn);
-        
+
         link.classList.add('link');
       }
 

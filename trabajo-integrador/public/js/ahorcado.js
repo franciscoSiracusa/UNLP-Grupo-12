@@ -54,6 +54,7 @@ const displayCurrentWord = (currentword) => {
 const displayRematch = (id) => {
   const btn = document.createElement('button');
   btn.textContent = 'Rematch';
+  btn.classList.add('btn');
   document.getElementById('rematch').appendChild(btn);
   btn.addEventListener('click', () => {
     fetch(`/ahorcado/reset?id=${id}`, {
@@ -78,7 +79,8 @@ const displayLetters = (letters) => {
 };
 
 const displayAttempts = (attempts) => {
-  document.getElementById('attemps').textContent = 'Fallas: ' + attempts;
+  document.getElementById('attemps').textContent =
+    'Numero de errores: ' + attempts;
 };
 
 const displayUpdatedGame = (data) => {
