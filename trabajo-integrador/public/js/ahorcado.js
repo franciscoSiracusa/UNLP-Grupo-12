@@ -1,5 +1,23 @@
 let playerNum;
 
+const displayGuestInfo = () => {
+  container = document.getElementById('playerInfo');
+  if (container.textContent === '') {
+    container.textContent = 'Adivinas la palabra, esperando a contrincante'
+  } else{
+    container.textContent = ''
+  }
+}
+
+const displayWritterInfo = () => {
+  container = document.getElementById('playerInfo');
+  if (container.textContent === '') {
+    container.textContent = 'Escribis la palabra'
+  } else{
+    container.textContent = ''
+  }
+}
+
 const copy = () => {
   let copyText = document.querySelector('#link input');
   copyText.select();
@@ -9,8 +27,10 @@ const copy = () => {
 
 const initializeGame = (data) => {
   if (data.writter === playerNum) {
+    displayWritterInfo();
     displayWordInput(data.id);
   } else {
+    displayGuestInfo();
     pollGameGuest(data.id);
   }
 };
@@ -38,6 +58,7 @@ const displayWordInput = (id) => {
       .then((res) => res.json())
       .then((data) => {
         e.target.reset();
+        displayWritterInfo();
         document.getElementById('form-container').removeChild(form);
         pollgameWritter(data.id);
       });
@@ -133,6 +154,7 @@ const pollGameGuest = (id) => {
     .then((res) => res.json())
     .then((data) => {
       if (data.word) {
+        displayGuestInfo();
         displayCurrentWord(data.currentWord);
         displayLetterInput(id);
       } else {
