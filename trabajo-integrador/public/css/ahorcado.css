@@ -100,3 +100,14 @@ body {
 .btn:hover {
   background: #33475c;
 }
+
+.img-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.img-container img {
+  width: 12rem;
+  height: 15rem;
+}

@@ -3,20 +3,20 @@ let playerNum;
 const displayGuestInfo = () => {
   container = document.getElementById('playerInfo');
   if (container.textContent === '') {
-    container.textContent = 'Adivinas la palabra, esperando a contrincante'
-  } else{
-    container.textContent = ''
+    container.textContent = 'Adivinas la palabra, esperando a contrincante';
+  } else {
+    container.textContent = '';
   }
-}
+};
 
 const displayWritterInfo = () => {
   container = document.getElementById('playerInfo');
   if (container.textContent === '') {
-    container.textContent = 'Escribis la palabra'
-  } else{
-    container.textContent = ''
+    container.textContent = 'Escribis la palabra';
+  } else {
+    container.textContent = '';
   }
-}
+};
 
 const copy = () => {
   let copyText = document.querySelector('#link input');
@@ -26,6 +26,7 @@ const copy = () => {
 };
 
 const initializeGame = (data) => {
+  displayImage(0);
   if (data.writter === playerNum) {
     displayWritterInfo();
     displayWordInput(data.id);
@@ -72,14 +73,14 @@ const displayCurrentWord = (currentword) => {
   document.getElementById('currentWord').textContent = currentword;
 };
 
-const undisplayGame = () =>{
+const undisplayGame = () => {
   document.getElementById('currentWord').textContent = '';
   document.getElementById('letters').textContent = '';
   document.getElementById('attemps').textContent = '';
   const img = document.getElementById('img');
   img.src = '';
   img.alt = '';
-}
+};
 
 const displayRematch = (id) => {
   const btn = document.createElement('button');
@@ -99,8 +100,13 @@ const displayRematch = (id) => {
   });
 };
 
-const displayStatus = (game) => { //TODO
-  console.log(game.status);
+const displayStatus = (game) => {
+  const status = document.getElementById('playerInfo');
+  if (game.status === 'survived') {
+    status.textContent = 'El pana sobrevivió, me alegro mucho por el pana ;D';
+  } else {
+    status.textContent = 'El pana murió, hay que avisarle a la familia D:';
+  }
   displayRematch(game.id);
 };
 
@@ -115,27 +121,34 @@ const displayAttempts = (attempts) => {
 };
 
 const displayImage = (attempts) => {
-  let alt
+  let alt;
   switch (attempts) {
-    case 0: alt = 'horca'
+    case 0:
+      alt = 'horca';
       break;
-    case 1: alt = 'cabeza'
+    case 1:
+      alt = 'cabeza';
       break;
-    case 2: alt = 'torso'
+    case 2:
+      alt = 'torso';
       break;
-    case 3: alt = 'brazo izquierda'
+    case 3:
+      alt = 'brazo izquierda';
       break;
-    case 4: alt = 'brazo derecho'
+    case 4:
+      alt = 'brazo derecho';
       break;
-    case 5: alt = 'pierna izquierda'
+    case 5:
+      alt = 'pierna izquierda';
       break;
-    case 6: alt = 'pierna derecha'
+    case 6:
+      alt = 'pierna derecha';
       break;
   }
   const img = document.getElementById('img');
   img.src = `../icons/hanged-${attempts}.svg`;
   img.alt = alt;
-}
+};
 
 const displayUpdatedGame = (data) => {
   displayCurrentWord(data.currentWord);
@@ -173,7 +186,7 @@ const displayLetterInput = (id) => {
         e.target.reset();
         displayUpdatedGame(data);
         if (data.status !== 'playing') {
-          displayStatus(data); 
+          displayStatus(data);
           document.getElementById('form-container').removeChild(form);
         }
       });
@@ -210,7 +223,7 @@ const pollgameWritter = (id) => {
           pollgameWritter(id);
         }, 500);
       } else {
-        displayStatus(data); 
+        displayStatus(data);
       }
     });
 };
