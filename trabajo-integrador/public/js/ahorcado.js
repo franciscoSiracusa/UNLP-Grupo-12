@@ -72,6 +72,15 @@ const displayCurrentWord = (currentword) => {
   document.getElementById('currentWord').textContent = currentword;
 };
 
+const undisplayGame = () =>{
+  document.getElementById('currentWord').textContent = '';
+  document.getElementById('letters').textContent = '';
+  document.getElementById('attemps').textContent = '';
+  const img = document.getElementById('img');
+  img.src = '';
+  img.alt = '';
+}
+
 const displayRematch = (id) => {
   const btn = document.createElement('button');
   btn.textContent = 'Rematch';
@@ -84,12 +93,13 @@ const displayRematch = (id) => {
       .then((res) => res.json())
       .then((data) => {
         document.getElementById('rematch').innerHTML = '';
+        undisplayGame();
         initializeGame(data);
       });
   });
 };
 
-const displayStatus = (game) => {
+const displayStatus = (game) => { //TODO
   console.log(game.status);
   displayRematch(game.id);
 };
@@ -104,10 +114,34 @@ const displayAttempts = (attempts) => {
     'Numero de errores: ' + attempts;
 };
 
+const displayImage = (attempts) => {
+  let alt
+  switch (attempts) {
+    case 0: alt = 'horca'
+      break;
+    case 1: alt = 'cabeza'
+      break;
+    case 2: alt = 'torso'
+      break;
+    case 3: alt = 'brazo izquierda'
+      break;
+    case 4: alt = 'brazo derecho'
+      break;
+    case 5: alt = 'pierna izquierda'
+      break;
+    case 6: alt = 'pierna derecha'
+      break;
+  }
+  const img = document.getElementById('img');
+  img.src = `../icons/hanged-${attempts}.svg`;
+  img.alt = alt;
+}
+
 const displayUpdatedGame = (data) => {
   displayCurrentWord(data.currentWord);
   displayLetters(data.letters);
   displayAttempts(data.attempts);
+  displayImage(data.attempts);
 };
 
 const displayLetterInput = (id) => {
@@ -139,7 +173,7 @@ const displayLetterInput = (id) => {
         e.target.reset();
         displayUpdatedGame(data);
         if (data.status !== 'playing') {
-          displayStatus(data);
+          displayStatus(data); 
           document.getElementById('form-container').removeChild(form);
         }
       });
@@ -157,6 +191,7 @@ const pollGameGuest = (id) => {
         displayGuestInfo();
         displayCurrentWord(data.currentWord);
         displayLetterInput(id);
+        displayImage(data.attempts);
       } else {
         setTimeout(() => {
           pollGameGuest(id);
@@ -175,7 +210,7 @@ const pollgameWritter = (id) => {
           pollgameWritter(id);
         }, 500);
       } else {
-        displayStatus(data);
+        displayStatus(data); 
       }
     });
 };
