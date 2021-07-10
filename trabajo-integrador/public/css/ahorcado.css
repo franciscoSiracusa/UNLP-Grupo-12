@@ -122,4 +122,11 @@ body {
 .playerInfo {
   text-align: center;
   margin: auto;
+  margin-bottom: 1rem;
+}
+
+.status {
+  text-align: center;
+  margin: auto;
+  margin-bottom: 1rem;
 }

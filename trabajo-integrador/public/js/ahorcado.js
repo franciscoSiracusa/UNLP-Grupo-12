@@ -3,7 +3,7 @@ let playerNum;
 const displayGuestInfo = () => {
   let container = document.getElementById('playerInfo');
   if (container.textContent === '') {
-    container.textContent = 'Adivinas la palabra, esperando a contrincante';
+    container.textContent = 'Adivinas la palabra, esperando al contrincante...';
   } else {
     container.textContent = '';
   }
@@ -11,8 +11,9 @@ const displayGuestInfo = () => {
 
 const displayWritterInfo = () => {
   let container = document.getElementById('playerInfo');
+  console.log(container.textContent)
   if (container.textContent === '') {
-    container.textContent = 'Escribis la palabra';
+    container.textContent = 'Escribis la palabra.';
   } else {
     container.textContent = '';
   }
@@ -37,7 +38,9 @@ const initializeGame = (data) => {
 };
 
 const displayWordInput = (id) => {
-  const form = document.getElementById('form');
+  const form = document.createElement('form');
+  form.id = 'form';
+  document.getElementById('form-container').appendChild(form);
   const input = document.createElement('input');
   const submit = document.createElement('input');
 
@@ -66,8 +69,7 @@ const displayWordInput = (id) => {
       .then((data) => {
         e.target.reset();
         displayWritterInfo();
-        document.getElementById('form').innerHTML = "";
-        document.getElementById('form').classList.remove('link');
+        document.getElementById('form-container').removeChild(form);
         pollgameWritter(data.id);
       });
   });
@@ -84,6 +86,7 @@ const undisplayGame = () => {
   document.getElementById('currentWord').textContent = '';
   document.getElementById('letters').textContent = '';
   document.getElementById('attempts').textContent = '';
+  document.getElementById('status').textContent = '';
   const img = document.getElementById('img');
   img.src = '';
   img.alt = '';
@@ -91,7 +94,7 @@ const undisplayGame = () => {
 
 const displayRematch = (id) => {
   const btn = document.createElement('button');
-  btn.textContent = 'Rematch';
+  btn.textContent = 'Jugar otra vez';
   btn.classList.add('rematchBtn');
   document.getElementById('rematch').appendChild(btn);
   btn.addEventListener('click', () => {
@@ -108,7 +111,7 @@ const displayRematch = (id) => {
 };
 
 const displayStatus = (game) => {
-  const status = document.getElementById('playerInfo');
+  const status = document.getElementById('status');
   if (game.status === 'survived') {
     status.textContent = 'El pana sobrevivió, me alegro mucho por el pana ;D';
   } else {
@@ -164,10 +167,9 @@ const displayUpdatedGame = (data) => {
 };
 
 const displayLetterInput = (id) => {
-  // const form = document.createElement('form');
-  // form.id = 'form';
-  const form = document.getElementById('form');
-  // container.appendChild(form);
+  const form = document.createElement('form');
+  form.id = 'form';
+  document.getElementById('form-container').appendChild(form);
   const input = document.createElement('input');
   const submit = document.createElement('input');
 
@@ -201,8 +203,7 @@ const displayLetterInput = (id) => {
         displayUpdatedGame(data);
         if (data.status !== 'playing') {
           displayStatus(data);
-          document.getElementById('form').innerHTML = "";
-          document.getElementById('form').classList.remove('link');
+          document.getElementById('form-container').removeChild(form);
         }
       });
   });
