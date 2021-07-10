@@ -1,7 +1,7 @@
 let playerNum;
 
 const displayGuestInfo = () => {
-  container = document.getElementById('playerInfo');
+  let container = document.getElementById('playerInfo');
   if (container.textContent === '') {
     container.textContent = 'Adivinas la palabra, esperando a contrincante';
   } else {
@@ -10,7 +10,7 @@ const displayGuestInfo = () => {
 };
 
 const displayWritterInfo = () => {
-  container = document.getElementById('playerInfo');
+  let container = document.getElementById('playerInfo');
   if (container.textContent === '') {
     container.textContent = 'Escribis la palabra';
   } else {
@@ -37,10 +37,7 @@ const initializeGame = (data) => {
 };
 
 const displayWordInput = (id) => {
-  const form = document.createElement('form');
-  form.id = 'form';
-  form.classList.add('form');
-  document.getElementById('form-container').appendChild(form);
+  const form = document.getElementById('form');
   const input = document.createElement('input');
   const submit = document.createElement('input');
 
@@ -49,8 +46,17 @@ const displayWordInput = (id) => {
   input.placeholder = 'Insertar Palabra';
   input.pattern = '^[a-zA-Z ñÑ]*$';
   input.required = true;
+  input.maxLength = 30;
 
   submit.type = 'submit';
+
+  form.classList.add('link');
+  input.classList.add("textInput");
+  submit.classList.add("btn");
+
+  form.appendChild(input);
+  form.appendChild(submit);
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     fetch(encodeURI(`/ahorcado/setWord?id=${id}&word=${e.target.word.value}`), {
@@ -60,7 +66,8 @@ const displayWordInput = (id) => {
       .then((data) => {
         e.target.reset();
         displayWritterInfo();
-        document.getElementById('form-container').removeChild(form);
+        document.getElementById('form').innerHTML = "";
+        document.getElementById('form').classList.remove('link');
         pollgameWritter(data.id);
       });
   });
@@ -76,7 +83,7 @@ const displayCurrentWord = (currentword) => {
 const undisplayGame = () => {
   document.getElementById('currentWord').textContent = '';
   document.getElementById('letters').textContent = '';
-  document.getElementById('attemps').textContent = '';
+  document.getElementById('attempts').textContent = '';
   const img = document.getElementById('img');
   img.src = '';
   img.alt = '';
@@ -85,7 +92,7 @@ const undisplayGame = () => {
 const displayRematch = (id) => {
   const btn = document.createElement('button');
   btn.textContent = 'Rematch';
-  btn.classList.add('btn');
+  btn.classList.add('rematchBtn');
   document.getElementById('rematch').appendChild(btn);
   btn.addEventListener('click', () => {
     fetch(`/ahorcado/reset?id=${id}`, {
@@ -112,12 +119,11 @@ const displayStatus = (game) => {
 
 const displayLetters = (letters) => {
   const container = document.getElementById('letters');
-  container.textContent = 'Letras usadas: ' + letters;
+  container.textContent = letters;
 };
 
 const displayAttempts = (attempts) => {
-  document.getElementById('attemps').textContent =
-    'Numero de errores: ' + attempts;
+  document.getElementById('attempts').textContent = attempts;
 };
 
 const displayImage = (attempts) => {
@@ -158,10 +164,10 @@ const displayUpdatedGame = (data) => {
 };
 
 const displayLetterInput = (id) => {
-  const form = document.createElement('form');
-  form.id = 'form';
-  form.classList.add('form');
-  document.getElementById('form-container').appendChild(form);
+  // const form = document.createElement('form');
+  // form.id = 'form';
+  const form = document.getElementById('form');
+  // container.appendChild(form);
   const input = document.createElement('input');
   const submit = document.createElement('input');
 
@@ -173,6 +179,14 @@ const displayLetterInput = (id) => {
   input.required = true;
 
   submit.type = 'submit';
+
+  form.classList.add('link');
+  input.classList.add("textInput");
+  submit.classList.add("btn");
+
+  form.appendChild(input);
+  form.appendChild(submit);
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     fetch(
@@ -187,7 +201,8 @@ const displayLetterInput = (id) => {
         displayUpdatedGame(data);
         if (data.status !== 'playing') {
           displayStatus(data);
-          document.getElementById('form-container').removeChild(form);
+          document.getElementById('form').innerHTML = "";
+          document.getElementById('form').classList.remove('link');
         }
       });
   });
@@ -254,6 +269,8 @@ window.addEventListener('load', () => {
         link.appendChild(btn);
 
         link.classList.add('link');
+        input.classList.add("textInput");
+        btn.classList.add("btn");
       }
 
       initializeGame(data);

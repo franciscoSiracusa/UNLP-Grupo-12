@@ -42,7 +42,7 @@ const displayDraw = () => {
 };
 
 const displayPlayerTurn = (turn) => {
-  document.getElementById('playerTurn').innerHTML = 'Jugas con : ' + turn;
+  document.getElementById('playerTurn').innerHTML = 'Jugas con: ' + turn;
 };
 
 const displayCurrentTurn = (turn) => {

@@ -32,7 +32,7 @@ body {
   width: 23rem;
 }
 
-.link input {
+.textInput {
   background: transparent;
   border: none;
   height: 100%;
@@ -44,7 +44,7 @@ body {
   outline: none;
 }
 
-.link button {
+.btn {
   background: #3b5169;
   border: none;
   border-radius: 0 2rem 2rem 0;
@@ -57,28 +57,16 @@ body {
   transition: background 0.1s;
 }
 
-.link button:hover {
+.btn:hover {
   background: #33475c;
 }
 
 .currentWord {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  text-align: center;
+  margin: auto;
   color: #222;
   font-size: 2rem;
-}
-
-.form {
-  background: #d9ebfd;
-  border: 1px solid #9eabb8;
-  border-radius: 2rem;
-  box-shadow: 1px -1px 6px #bbb inset;
-  display: flex;
-  justify-content: space-between;
-  padding-left: 1rem;
-  margin: 1rem auto 3rem auto;
-  width: 23rem;
+  width: 50%;
 }
 
 .rematch {
@@ -88,7 +76,7 @@ body {
   margin-top: 2rem;
 }
 
-.btn {
+.rematchBtn {
   color: #ccc;
   background: #3b5169;
   border: none;
@@ -97,7 +85,7 @@ body {
   cursor: pointer;
 }
 
-.btn:hover {
+.rematchBtn:hover {
   background: #33475c;
 }
 
@@ -105,9 +93,33 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: fixed;
+  bottom: 2rem;
+  left: calc(50% - 6rem);
 }
 
 .img-container img {
   width: 12rem;
   height: 15rem;
+}
+
+.gameInfo {
+  border: 2px solid #333;
+  position: absolute;
+  top: 10rem;
+  left: 3rem;
+  padding: 1rem;
+  height: fit-content;
+  width: fit-content;
+  /*  height: 5rem;
+  width: 10rem; */
+}
+
+.gameInfo p {
+  margin-bottom: 0.5rem;
+}
+
+.playerInfo {
+  text-align: center;
+  margin: auto;
 }
