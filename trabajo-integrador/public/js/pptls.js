@@ -113,12 +113,6 @@ const displayGameResult = (game) => {
   document.querySelector('.result-message').appendChild(result);
 };
 
-/* const toggleConnect = (id, num) => {
-  fetch(`/pptls/toggleConnect?id=${id}&player=${playerNum}`, {
-    method: 'POST',
-  });
-}; */
-
 const disconectPlayer = () => {};
 
 const displayRematch = (id) => {
@@ -191,12 +185,6 @@ window.addEventListener('load', () => {
 
         link.classList.add('link');
       }
-
-      /* toggleConnect(data.id, playerNum);
-
-      window.addEventListener('beforeunload', () => {
-        toggleConnect(data.id, playerNum);
-      }); */
 
       createOptions(data.id);
     });

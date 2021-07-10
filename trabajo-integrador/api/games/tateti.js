@@ -46,27 +46,29 @@ const checkDraw = (board) => {
 };
 
 const deleteBoard = (id) => {
-  games.splice(games.findIndex((obj) =>obj.id === id),1);
-}
+  games.splice(
+    games.findIndex((obj) => obj.id === id),
+    1
+  );
+};
 
 const createGame = () => {
-	let currentBoard = {
-      id: uuidv4(),
-      board: [null, null, null, null, null, null, null, null, null],
-      turn: ["X", "O"][Math.floor(Math.random() * ["X", "O"].length)], 
-      winner: null,
-      draw: false,
-    };
+  let currentBoard = {
+    id: uuidv4(),
+    board: [null, null, null, null, null, null, null, null, null],
+    turn: ['X', 'O'][Math.floor(Math.random() * ['X', 'O'].length)],
+    winner: null,
+    draw: false,
+  };
 
-    games.push(currentBoard);
+  games.push(currentBoard);
 
-    return currentBoard;
-}
+  return currentBoard;
+};
 
 const updateGame = (id, square) => {
   let currentBoard = searchBoard(id);
 
-  // validar jugada
   if (isValidMove(currentBoard.board, square, currentBoard.winner)) {
     //salta un error del board
     currentBoard.board[square] = currentBoard.turn;
@@ -82,15 +84,15 @@ const updateGame = (id, square) => {
   return currentBoard;
 };
 
-const checkEndOfGame = currentBoard => {
-	if (currentBoard.winner || currentBoard.draw) {
+const checkEndOfGame = (currentBoard) => {
+  if (currentBoard.winner || currentBoard.draw) {
     setTimeout(deleteBoard, 3000, currentBoard.id);
   }
-}
+};
 
 module.exports = {
-	searchBoard,
-	createGame,
-	updateGame,
-	checkEndOfGame
-}
+  searchBoard,
+  createGame,
+  updateGame,
+  checkEndOfGame,
+};

@@ -22,10 +22,8 @@ const checkResult = (players) => {
     switch (option0) {
       case 'rock':
         if (option1 === 'lizard' || option1 === 'scissors') {
-          //caso que gana option0
           return 0;
         } else if (option1 === 'paper' || option1 === 'spock') {
-          //caso que pierde option0
           return 1;
         }
         break;
@@ -66,31 +64,29 @@ const searchGame = (id) => {
 };
 
 const createGame = () => {
-	let currentGame = {
-      players: [
-        {
-          points: 0,
-          ready: false,
-          option: null,
-          round: 1,
-          /* connected: false, */
-        },
-        {
-          points: 0,
-          ready: false,
-          option: null,
-          round: 1,
-          /* connected: false, */
-        },
-      ],
-      id: uuidv4(),
-      result: null,
-    };
+  let currentGame = {
+    players: [
+      {
+        points: 0,
+        ready: false,
+        option: null,
+        round: 1,
+      },
+      {
+        points: 0,
+        ready: false,
+        option: null,
+        round: 1,
+      },
+    ],
+    id: uuidv4(),
+    result: null,
+  };
 
-    games.push(currentGame);
+  games.push(currentGame);
 
-    return currentGame;
-}
+  return currentGame;
+};
 
 const updateGame = (id, player, option) => {
   let currentGame = searchGame(id);
@@ -117,8 +113,8 @@ const reset = (id, player) => {
 };
 
 module.exports = {
-	searchGame,
-	createGame,
-	updateGame,
-	reset
-}
+  searchGame,
+  createGame,
+  updateGame,
+  reset,
+};

@@ -11,7 +11,6 @@ const displayGuestInfo = () => {
 
 const displayWritterInfo = () => {
   let container = document.getElementById('playerInfo');
-  console.log(container.textContent)
   if (container.textContent === '') {
     container.textContent = 'Escribis la palabra.';
   } else {
@@ -54,8 +53,8 @@ const displayWordInput = (id) => {
   submit.type = 'submit';
 
   form.classList.add('link');
-  input.classList.add("textInput");
-  submit.classList.add("btn");
+  input.classList.add('textInput');
+  submit.classList.add('btn');
 
   form.appendChild(input);
   form.appendChild(submit);
@@ -183,8 +182,8 @@ const displayLetterInput = (id) => {
   submit.type = 'submit';
 
   form.classList.add('link');
-  input.classList.add("textInput");
-  submit.classList.add("btn");
+  input.classList.add('textInput');
+  submit.classList.add('btn');
 
   form.appendChild(input);
   form.appendChild(submit);
@@ -270,8 +269,8 @@ window.addEventListener('load', () => {
         link.appendChild(btn);
 
         link.classList.add('link');
-        input.classList.add("textInput");
-        btn.classList.add("btn");
+        input.classList.add('textInput');
+        btn.classList.add('btn');
       }
 
       initializeGame(data);

@@ -35,21 +35,20 @@ const checkWord = (game, letter) => {
 
 const createGame = () => {
   let currentGame = {
-      // el turno del que da la palabra. 0 para el jugador 0, 1 para el jugador 1
-      writter: [0, 1][Math.floor(Math.random() * [0, 1].length)],
-      //quizas deberia haber unos puntos
-      id: uuidv4(),
-      word: null,
-      currentWord: null,
-      attempts: 0,
-      letters: '',
-      status: 'playing',
-    };
+    // el turno del que da la palabra. 0 para el jugador 0, 1 para el jugador 1
+    writter: [0, 1][Math.floor(Math.random() * [0, 1].length)],
+    id: uuidv4(),
+    word: null,
+    currentWord: null,
+    attempts: 0,
+    letters: '',
+    status: 'playing',
+  };
 
-    games.push(currentGame);
+  games.push(currentGame);
 
-    return currentGame;
-}
+  return currentGame;
+};
 
 const setWord = (id, word) => {
   let currentGame = searchGame(id);
@@ -59,7 +58,7 @@ const setWord = (id, word) => {
   currentGame.currentWord = setCurrentWord(currentGame.word);
 
   return currentGame;
-}
+};
 
 const attempt = (id, letter) => {
   let currentGame = searchGame(id);
@@ -104,5 +103,5 @@ module.exports = {
   createGame,
   setWord,
   attempt,
-  reset
-}
+  reset,
+};
