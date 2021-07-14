@@ -13,7 +13,7 @@ const displayBoard = (board) => {
   });
 };
 
-const displayRematch = (id) => {
+const displayRematch = (id, playerTurn) => {
   const btn = document.createElement('button');
   const container = document.getElementById('alert');
   btn.textContent = 'Jugar otra vez';
@@ -94,10 +94,10 @@ const pollGame = (id, winner, draw, boardTurn, playerTurn) => {
   } else {
     if (winner) {
       displayWinner(winner);
-      displayRematch(id);
+      displayRematch(id, playerTurn);
     } else {
       displayDraw();
-      displayRematch(id);
+      displayRematch(id, playerTurn);
     }
   }
 };
@@ -150,10 +150,10 @@ window.addEventListener('load', () => {
                 displayCurrentTurn(data.turn);
                 if (data.winner) {
                   displayWinner(data.winner);
-                  displayRematch(data.id);
+                  displayRematch(data.id, playerTurn);
                 } else if (data.draw) {
                   displayDraw();
-                  displayRematch(data.id);
+                  displayRematch(data.id, playerTurn);
                 } else {
                   pollGame(
                     data.id,
