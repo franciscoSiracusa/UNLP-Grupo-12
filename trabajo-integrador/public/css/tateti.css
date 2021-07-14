@@ -96,18 +96,18 @@ body {
   margin-top: 1rem;
 }
 
-.alert a {
+.rematchBtn {
   background: #f0a39e;
   color: #222;
   font-size: 1.1rem;
   margin-bottom: 1rem;
 }
 
-.alert a:visited {
+.rematchBtn:visited {
   color: #222;
 }
 
-.alert a:hover {
+.rematchBtn:hover {
   background: #86bbf0;
 }
 

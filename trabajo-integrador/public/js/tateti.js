@@ -13,31 +13,47 @@ const displayBoard = (board) => {
   });
 };
 
+const displayRematch = (id) => {
+  const btn = document.createElement('button');
+  const container = document.getElementById('alert');
+  btn.textContent = 'Jugar otra vez';
+  btn.classList.add('rematchBtn');
+  container.appendChild(btn);
+  btn.addEventListener('click', () => {
+    fetch(`/tateti/reset?id=${id}`, {
+      method: 'PATCH',
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        container.innerHTML = '';
+        container.classList.remove('alert');
+        document.querySelectorAll('.square').forEach((square) => {
+          square.textContent = '';
+        });
+        displayCurrentTurn(data.turn);
+        currentTurn = data.turn;
+        if (playerTurn !== currentTurn) {
+          pollGame(data.id, data.winner, data.draw, data.turn, playerTurn);
+        }
+      });
+  });
+};
+
 const displayWinner = (winner) => {
   const container = document.getElementById('alert');
   const p = document.createElement('p');
-  const a = document.createElement('a');
 
   p.textContent = 'Ganador: ' + winner;
-  a.href = '/tateti';
-  a.textContent = 'Jugar de nuevo';
 
   container.appendChild(p);
-  container.appendChild(a);
   container.classList.add('alert');
 };
 
 const displayDraw = () => {
   const container = document.getElementById('alert');
   const p = document.createElement('p');
-  const a = document.createElement('a');
-
   p.textContent = 'Empate';
-  a.href = '/tateti';
-  a.textContent = 'Jugar de nuevo';
-
   container.appendChild(p);
-  container.appendChild(a);
   container.classList.add('alert');
 };
 
@@ -78,8 +94,10 @@ const pollGame = (id, winner, draw, boardTurn, playerTurn) => {
   } else {
     if (winner) {
       displayWinner(winner);
+      displayRematch(id);
     } else {
       displayDraw();
+      displayRematch(id);
     }
   }
 };
@@ -132,8 +150,10 @@ window.addEventListener('load', () => {
                 displayCurrentTurn(data.turn);
                 if (data.winner) {
                   displayWinner(data.winner);
+                  displayRematch(data.id);
                 } else if (data.draw) {
                   displayDraw();
+                  displayRematch(data.id);
                 } else {
                   pollGame(
                     data.id,

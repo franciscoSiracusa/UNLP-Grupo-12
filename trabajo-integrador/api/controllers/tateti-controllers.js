@@ -17,8 +17,11 @@ const initializeGame = (req, res) => {
 const updateGame = (req, res) => {
   let currentBoard = tatetiGame.updateGame(req.query.id, req.query.square);
 
-  // si termino el juego, borrar tablero luego de 3 segundos
-  tatetiGame.checkEndOfGame(currentBoard);
+  res.send(currentBoard);
+};
+
+const reset = (req, res) => {
+  let currentBoard = tatetiGame.reset(req.query.id);
 
   res.send(currentBoard);
 };
@@ -26,8 +29,5 @@ const updateGame = (req, res) => {
 module.exports = {
   initializeGame,
   updateGame,
+  reset,
 };
-
-
-
-
