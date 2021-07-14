@@ -7,7 +7,7 @@ const initializeGame = (req, res) => {
     //si no existe, se crea un nuevo juego
     currentGame = ahorcadoGame.createGame();
   } else {
-    currentGame = ahorcadoGame.searchGame(req.query.id);
+    currentGame = ahorcadoGame.searchGame(req.query.id).info;
   }
 
   res.send(currentGame);

@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require('uuid');
 let games = [];
 
 const searchGame = (id) => {
-  return games.find((obj) => obj.id === id);
+  return games.find((obj) => obj.info.id === id);
 };
 
 const setCurrentWord = ([...word]) => {
@@ -23,10 +23,10 @@ const checkWord = (game, letter) => {
   let success = false;
   wordArray.forEach((wordletter, index) => {
     if (letter === wordletter) {
-      game.currentWord =
-        game.currentWord.substr(0, index) +
+      game.info.currentWord =
+        game.info.currentWord.substr(0, index) +
         letter +
-        game.currentWord.substr(index + 1);
+        game.info.currentWord.substr(index + 1);
       success = true;
     }
   });
@@ -36,18 +36,20 @@ const checkWord = (game, letter) => {
 const createGame = () => {
   let currentGame = {
     // el turno del que da la palabra. 0 para el jugador 0, 1 para el jugador 1
-    writter: [0, 1][Math.floor(Math.random() * [0, 1].length)],
-    id: uuidv4(),
+    info: {
+      writter: [0, 1][Math.floor(Math.random() * [0, 1].length)],
+      id: uuidv4(),
+      currentWord: null,
+      attempts: 0,
+      letters: '',
+      status: 'playing',
+    },
     word: null,
-    currentWord: null,
-    attempts: 0,
-    letters: '',
-    status: 'playing',
   };
 
   games.push(currentGame);
 
-  return currentGame;
+  return currentGame.info;
 };
 
 const setWord = (id, word) => {
@@ -55,47 +57,47 @@ const setWord = (id, word) => {
 
   currentGame.word = word.toLowerCase();
 
-  currentGame.currentWord = setCurrentWord(currentGame.word);
+  currentGame.info.currentWord = setCurrentWord(currentGame.word);
 
-  return currentGame;
+  return currentGame.info;
 };
 
 const attempt = (id, letter) => {
   let currentGame = searchGame(id);
 
   if (
-    !currentGame.letters.includes(letter.toLowerCase()) &&
-    currentGame.status === 'playing'
+    !currentGame.info.letters.includes(letter.toLowerCase()) &&
+    currentGame.info.status === 'playing'
   ) {
-    currentGame.letters += letter.toLowerCase();
+    currentGame.info.letters += letter.toLowerCase();
 
     if (!checkWord(currentGame, letter.toLowerCase())) {
-      currentGame.attempts++;
-      if (currentGame.attempts === 6) {
-        currentGame.status = 'dead';
+      currentGame.info.attempts++;
+      if (currentGame.info.attempts === 6) {
+        currentGame.info.status = 'dead';
       }
     }
-    if (currentGame.word === currentGame.currentWord) {
-      currentGame.status = 'survived';
+    if (currentGame.word === currentGame.info.currentWord) {
+      currentGame.info.status = 'survived';
     }
   }
 
-  return currentGame;
+  return currentGame.info;
 };
 
 const reset = (id) => {
   let currentGame = searchGame(id);
 
-  if (currentGame.status !== 'playing') {
-    currentGame.writter = currentGame.writter === 0 ? 1 : 0;
+  if (currentGame.info.status !== 'playing') {
+    currentGame.info.writter = currentGame.info.writter === 0 ? 1 : 0;
     currentGame.word = null;
-    currentGame.currentWord = null;
-    currentGame.attempts = 0;
-    currentGame.letters = '';
-    currentGame.status = 'playing';
+    currentGame.info.currentWord = null;
+    currentGame.info.attempts = 0;
+    currentGame.info.letters = '';
+    currentGame.info.status = 'playing';
   }
 
-  return currentGame;
+  return currentGame.info;
 };
 
 module.exports = {

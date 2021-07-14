@@ -215,7 +215,7 @@ const pollGameGuest = (id) => {
   fetch(`/ahorcado/start?id=${id}`)
     .then((res) => res.json())
     .then((data) => {
-      if (data.word) {
+      if (data.currentWord) {
         displayGuestInfo();
         displayCurrentWord(data.currentWord);
         displayLetterInput(id);
@@ -233,7 +233,7 @@ const pollgameWritter = (id) => {
     .then((res) => res.json())
     .then((data) => {
       displayUpdatedGame(data);
-      if (data.status === 'playing' && data.word !== data.currentWord) {
+      if (data.status === 'playing') {
         setTimeout(() => {
           pollgameWritter(id);
         }, 500);
