@@ -31,6 +31,7 @@ const displayRematch = (id, playerTurn) => {
           square.textContent = '';
         });
         displayCurrentTurn(data.turn);
+        displayBoard(data.board);
         currentTurn = data.turn;
         if (playerTurn !== currentTurn) {
           pollGame(data.id, data.winner, data.draw, data.turn, playerTurn);
