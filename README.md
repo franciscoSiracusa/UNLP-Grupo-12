@@ -1,29 +1,13 @@
-# Seminario de Lenguajes JS
+# Seminario de Lenguajes JS UNLP
 
-## Instalar docker
-* **Windows**: [Link de descarga](https://hub.docker.com/editions/community/docker-ce-desktop-windows/)
-* **macOS**: [Link de descarga](https://docs.docker.com/docker-for-mac/install/)
-* **GNU/Linux**:
+## Proyectos grupales
 
-## usar con docker
-#### instalar dependencias
-```bash
-docker-compose run backend npm install
-```
+#### Pokedex
 
-#### correr la aplicacion
-```bash
-docker-compose up
-```
+Utiliza la API lladamada pokéapi y AJAX para desplegar informacion sobre cada pokémon.
 
-## usar sin docker
-- estando parado en la carpeta src
+#### Pagina de juegos
 
-#### instalar dependencia
-```bash
-npm install
-```
-#### correr la aplicacion
-```bash
-npm start
-```
+* Tateti 
+* Piedra Papel Tijera Lagarto Spock
+* Ahorcado
